@@ -177,15 +177,21 @@
 
   <div class="card" style="background:#ebf8ff; border:2px solid var(--accent);">
     <h3 style="color:var(--accent);">ESTIMATIVA (quando perguntarem)</h3>
-    <p style="font-size:1.1rem;"><strong>"3 a 5 semanas com ferramentas de IA, dependendo da qualidade dos dados."</strong></p>
-    <p style="margin-top:0.5rem;">Se pressionarem: "10-20 dias uteis. Me enviem 3 questionarios reais e em 48h mando proposta calibrada."</p>
-    <p style="margin-top:0.5rem; color:var(--danger);"><strong>NAO dar preco fechado sem ver dados reais.</strong></p>
+    <table style="font-size:0.95rem; margin-bottom:0.5rem;">
+      <tr><td style="color:var(--accent);"><strong>Apertado</strong></td><td><strong>8d</strong> (~1.5 sem)</td><td>Se dados limpos, foco total</td></tr>
+      <tr><td style="color:var(--success);">Best</td><td>10d (~2 sem)</td><td>Questionarios consistentes</td></tr>
+      <tr><td style="color:#975a16;">Esperado</td><td>16d (~3.5 sem)</td><td>Mix de formatos</td></tr>
+      <tr><td style="color:var(--danger);">Worst</td><td>25d (~5 sem)</td><td>Muita inconsistencia</td></tr>
+    </table>
+    <p style="font-size:1rem;"><strong>Falar na reuniao: "2 a 4 semanas com IA, dependendo da qualidade dos dados."</strong></p>
+    <p style="margin-top:0.3rem;">Se pressionarem: "Ja pre-estimei 8 dias. Com dados limpos e viavel. Me enviem 3 questionarios reais e em 48h confirmo."</p>
+    <p style="margin-top:0.3rem; color:var(--danger);"><strong>NAO dar preco fechado sem ver dados reais.</strong></p>
   </div>
 
   <div class="card" style="background:#fffff0; border:2px solid #ecc94b;">
     <h3 style="color:#975a16;">COMO VOCE FAZ (quando perguntarem)</h3>
     <p style="font-size:1rem;">"Semi-automatizado com IA + validacao humana. A IA le e interpreta cada questionario, eu valido e documento. Output: Excel limpo + codebook + .do file STATA."</p>
-    <p style="margin-top:0.5rem;">Se aprofundarem: "Python extrai a estrutura, IA interpreta respostas ambiguas. Tudo passa por QA humano."</p>
+    <p style="margin-top:0.5rem;">Se aprofundarem: "Tenho 7 abordagens mapeadas. A principal usa Python + IA hibrido. Outra opcao e Qualtrics + IA, onde a IA preenche um formulario Qualtrics que valida automaticamente e exporta direto pra STATA."</p>
   </div>
 
   <div class="card">
@@ -360,7 +366,7 @@
       <summary>Passo a passo desta abordagem</summary>
       <div>
         <ol style="padding-left:1.2rem; line-height:1.8;">
-          <li><strong>Construir survey no Qualtrics</strong> espelhando o questionario (~570 campos). IA ajuda a gerar o survey automaticamente. (2-3 dias)</li>
+          <li><strong>Construir survey no Qualtrics</strong> espelhando o questionario (573 campos). IA ajuda a gerar o survey automaticamente. (2-3 dias)</li>
           <li><strong>Criar prompt de extracao</strong> que le cada .docx e retorna JSON com as respostas mapeadas aos campos do Qualtrics. (1-2 dias)</li>
           <li><strong>Conectar IA &rarr; Qualtrics API</strong> para envio automatizado. Ou importar via CSV se nao tiver API. (1 dia)</li>
           <li><strong>Validacao</strong>: Qualtrics flagga automaticamente respostas invalidas. Revisar flags. (2-3 dias)</li>
