@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ILO ALMP Dataset — Meeting Prep Briefing</title>
+<style>
+  :root {
+    --primary: #1a365d;
+    --accent: #2b6cb0;
+    --success: #276749;
+    --warning: #c05621;
+    --danger: #c53030;
+    --bg: #f7fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --text: #2d3748;
+    --muted: #718096;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+  header { background: var(--primary); color: white; padding: 2rem; text-align: center; }
+  header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  header p { opacity: 0.8; font-size: 0.95rem; }
+
+  .tabs { display: flex; background: #2d4a7a; overflow-x: auto; position: sticky; top: 0; z-index: 100; }
+  .tab { padding: 0.8rem 1.2rem; color: rgba(255,255,255,0.7); cursor: pointer; border: none; background: none; font-size: 0.9rem; white-space: nowrap; transition: all 0.2s; }
+  .tab:hover { color: white; background: rgba(255,255,255,0.1); }
+  .tab.active { color: white; background: var(--accent); font-weight: 600; }
+
+  .panel { display: none; padding: 1.5rem; max-width: 1100px; margin: 0 auto; }
+  .panel.active { display: block; }
+
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .card h3 { color: var(--primary); margin-bottom: 0.8rem; font-size: 1.1rem; }
+
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .metric { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; text-align: center; }
+  .metric .value { font-size: 2rem; font-weight: 700; color: var(--accent); }
+  .metric .label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th { background: var(--primary); color: white; padding: 0.7rem; text-align: left; position: sticky; top: 44px; }
+  td { padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border); }
+  tr:hover { background: #edf2f7; }
+
+  .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+  .badge-high { background: #fed7d7; color: var(--danger); }
+  .badge-medium { background: #fefcbf; color: #975a16; }
+  .badge-low { background: #c6f6d5; color: var(--success); }
+  .badge-critical { background: var(--danger); color: white; }
+  .badge-ok { background: var(--success); color: white; }
+
+  details { margin-bottom: 0.8rem; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--accent); padding: 0.5rem 0; }
+  details summary:hover { color: var(--primary); }
+  details > div { padding: 0.8rem; background: #f7fafc; border-left: 3px solid var(--accent); margin-top: 0.3rem; }
+
+  .approach-card { border-left: 4px solid var(--accent); }
+  .approach-card.recommended { border-left-color: var(--success); background: #f0fff4; }
+
+  .risk-high { border-left: 4px solid var(--danger); }
+  .risk-medium { border-left: 4px solid var(--warning); }
+  .risk-low { border-left: 4px solid var(--success); }
+
+  .checklist { list-style: none; }
+  .checklist li { padding: 0.5rem 0; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 0.5rem; }
+  .checklist li::before { content: ""; display: inline-block; width: 18px; height: 18px; border: 2px solid var(--accent); border-radius: 3px; flex-shrink: 0; margin-top: 2px; }
+  .checklist li.checked::before { background: var(--accent); border-color: var(--accent); }
+
+  .scenario-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .scenario { border-radius: 8px; padding: 1.2rem; text-align: center; }
+  .scenario.best { background: #f0fff4; border: 2px solid #48bb78; }
+  .scenario.expected { background: #fefcbf; border: 2px solid #ecc94b; }
+  .scenario.worst { background: #fed7d7; border: 2px solid #fc8181; }
+  .scenario .days { font-size: 2.5rem; font-weight: 700; }
+  .scenario .label { font-size: 0.85rem; color: var(--muted); }
+
+  .question-category { background: var(--primary); color: white; padding: 0.5rem 1rem; border-radius: 4px 4px 0 0; font-weight: 600; font-size: 0.9rem; }
+  .question-list { background: white; border: 1px solid var(--border); border-top: none; border-radius: 0 0 4px 4px; }
+  .question-item { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); display: flex; gap: 0.5rem; }
+  .question-item:last-child { border-bottom: none; }
+  .question-num { color: var(--accent); font-weight: 700; min-width: 24px; }
+
+  .progress-bar { height: 24px; background: #e2e8f0; border-radius: 12px; overflow: hidden; margin: 0.5rem 0; }
+  .progress-fill { height: 100%; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: white; font-weight: 600; }
+
+  @media (max-width: 768px) {
+    .metric-grid { grid-template-columns: repeat(2, 1fr); }
+    .scenario-grid { grid-template-columns: 1fr; }
+    .tabs { flex-wrap: wrap; }
+  }
+
+  @media print {
+    .tabs { display: none; }
+    .panel { display: block !important; page-break-before: always; }
+    .panel:first-of-type { page-break-before: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ILO ALMP Dataset Project</h1>
+  <p>Meeting Preparation Briefing &mdash; Consolidado em 18 Mar 2026</p>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('overview')">Panorama</button>
+  <button class="tab" onclick="showTab('approaches')">Abordagens</button>
+  <button class="tab" onclick="showTab('technical')">Achados Tecnicos</button>
+  <button class="tab" onclick="showTab('estimates')">Estimativas</button>
+  <button class="tab" onclick="showTab('risks')">Riscos</button>
+  <button class="tab" onclick="showTab('questions')">Perguntas p/ ILO</button>
+  <button class="tab" onclick="showTab('dealbreakers')">Deal-Breakers</button>
+  <button class="tab" onclick="showTab('glossary')">Glossario</button>
+</div>
+
+<!-- ==================== PANORAMA ==================== -->
+<div id="overview" class="panel active">
+  <h2 style="margin-bottom:1rem; color:var(--primary);">Executive Summary</h2>
+
+  <div class="card" style="background: #ebf8ff; border-color: var(--accent);">
+    <p><strong>O projeto:</strong> Transformar ~100 questionarios Word (.docx) preenchidos em entrevistas sobre programas de mercado de trabalho (ALMPs) num dataset Excel compativel com STATA.</p>
+    <p style="margin-top:0.5rem;"><strong>O desafio central:</strong> Os questionarios sao semi-estruturados com 573 variaveis, 478 checkboxes, e formatos mistos de resposta. A complexidade real depende de como os ~100 entrevistadores preencheram &mdash; e ainda nao temos amostras reais.</p>
+  </div>
+
+  <div class="metric-grid">
+    <div class="metric">
+      <div class="value">573</div>
+      <div class="label">Variaveis no Codebook</div>
+    </div>
+    <div class="metric">
+      <div class="value">478</div>
+      <div class="label">Checkboxes (Form Fields)</div>
+    </div>
+    <div class="metric">
+      <div class="value">109</div>
+      <div class="label">Linhas na Tabela</div>
+    </div>
+    <div class="metric">
+      <div class="value">10</div>
+      <div class="label">Secoes do Questionario</div>
+    </div>
+    <div class="metric">
+      <div class="value">~100</div>
+      <div class="label">Questionarios a Processar</div>
+    </div>
+    <div class="metric">
+      <div class="value">26d</div>
+      <div class="label">Estimativa (caso esperado)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Distribuicao de Variaveis por Tipo</h3>
+    <div style="margin: 0.5rem 0;">
+      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>Binary (Yes/No, checkboxes)</span><span><strong>385</strong> (67%)</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:67%; background:#4299e1;">385</div></div>
+    </div>
+    <div style="margin: 0.5rem 0;">
+      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>String (texto livre)</span><span><strong>147</strong> (26%)</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:26%; background:#48bb78;">147</div></div>
+    </div>
+    <div style="margin: 0.5rem 0;">
+      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>Categorical (single-select)</span><span><strong>31</strong> (5%)</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:5%; background:#ed8936;">31</div></div>
+    </div>
+    <div style="margin: 0.5rem 0;">
+      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>Numeric</span><span><strong>10</strong> (2%)</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:2%; background:#9f7aea;">10</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Variaveis por Secao</h3>
+    <table>
+      <tr><th>Secao</th><th>Variaveis</th><th>Dominante</th><th>Complexidade</th></tr>
+      <tr><td>General Info</td><td>26</td><td>Binary + String</td><td><span class="badge badge-low">Baixa</span></td></tr>
+      <tr><td>Objectives</td><td>12</td><td>String</td><td><span class="badge badge-low">Baixa</span></td></tr>
+      <tr><td>Coverage</td><td>40</td><td>Binary</td><td><span class="badge badge-medium">Media</span></td></tr>
+      <tr><td>Target Groups</td><td>48</td><td>Binary + String</td><td><span class="badge badge-medium">Media</span></td></tr>
+      <tr><td>Delivery Chain (6x)</td><td>76</td><td>Binary (58)</td><td><span class="badge badge-high">Alta</span></td></tr>
+      <tr><td>Labour Market Activation (5 sub)</td><td>177</td><td>Binary (145)</td><td><span class="badge badge-high">Alta</span></td></tr>
+      <tr><td>Income Support</td><td>35</td><td>Binary</td><td><span class="badge badge-medium">Media</span></td></tr>
+      <tr><td>Digital</td><td>4</td><td>Categorical</td><td><span class="badge badge-low">Baixa</span></td></tr>
+      <tr><td>Design &amp; Implementation</td><td>60</td><td>Binary (40)</td><td><span class="badge badge-medium">Media</span></td></tr>
+      <tr><td>M&amp;E</td><td>70</td><td>Binary (47)</td><td><span class="badge badge-medium">Media</span></td></tr>
+      <tr><td>Financing</td><td>24</td><td>Binary + String</td><td><span class="badge badge-medium">Media</span></td></tr>
+      <tr style="font-weight:700; background:#edf2f7;"><td>TOTAL</td><td>573</td><td></td><td></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== ABORDAGENS ==================== -->
+<div id="approaches" class="panel">
+  <h2 style="margin-bottom:1rem; color:var(--primary);">Abordagens de Automacao</h2>
+  <p style="margin-bottom:1rem; color:var(--muted);">6 abordagens analisadas. Cada uma com trade-offs diferentes de esforco, risco, e qualidade.</p>
+
+  <div class="card approach-card recommended">
+    <h3 style="color:var(--success);">RECOMENDADA: Python + IA Hibrido</h3>
+    <p><strong>Como funciona:</strong> Python (python-docx) extrai a estrutura das tabelas de forma deterministica. IA (Claude) interpreta o conteudo das celulas de resposta &mdash; especialmente campos ambiguos, multi-selects, e condicionais.</p>
+    <table style="margin-top:0.8rem;">
+      <tr><td><strong>Esforco</strong></td><td>7-12 dias (script) + QA</td></tr>
+      <tr><td><strong>Risco tecnico</strong></td><td><span class="badge badge-medium">Medio-Baixo</span></td></tr>
+      <tr><td><strong>Qualidade</strong></td><td><span class="badge badge-ok">Alta</span> (melhor dos dois mundos)</td></tr>
+      <tr><td><strong>Custo API</strong></td><td>$15-40 (tokens Claude)</td></tr>
+      <tr><td><strong>Por que:</strong></td><td>Python garante extracao <em>deterministica</em> da estrutura. IA resolve o problema mais dificil: <em>interpretar</em> respostas ambiguas. Reduz custo de tokens (envia so tabela, nao doc inteiro).</td></tr>
+    </table>
+  </div>
+
+  <div class="card approach-card">
+    <h3>Opcao B: IA-Assisted Puro (Claude/GPT le cada .docx)</h3>
+    <p>Cada .docx convertido para texto e enviado a um LLM com schema JSON. O LLM retorna dados estruturados.</p>
+    <table style="margin-top:0.8rem;">
+      <tr><td><strong>Esforco</strong></td><td>8-12 dias</td></tr>
+      <tr><td><strong>Risco</strong></td><td><span class="badge badge-medium">Medio</span> (alucinacao possivel)</td></tr>
+      <tr><td><strong>Qualidade</strong></td><td>Media-Alta (~95% consistencia)</td></tr>
+      <tr><td><strong>Custo API</strong></td><td>$30-80</td></tr>
+      <tr><td><strong>Trade-off:</strong></td><td>Rapido de prototipar, lida com variabilidade, mas pode inventar dados em campos ambiguos.</td></tr>
+    </table>
+  </div>
+
+  <div class="card approach-card">
+    <h3>Opcao C: Full Python (python-docx + pandas)</h3>
+    <p>Script Python puro que parseia tabelas, detecta checkboxes, mapeia variaveis.</p>
+    <table style="margin-top:0.8rem;">
+      <tr><td><strong>Esforco</strong></td><td>12-18 dias</td></tr>
+      <tr><td><strong>Risco</strong></td><td><span class="badge badge-high">Medio-Alto</span> (edge cases)</td></tr>
+      <tr><td><strong>Qualidade</strong></td><td><span class="badge badge-ok">Alta</span> (deterministico)</td></tr>
+      <tr><td><strong>Custo</strong></td><td>$0</td></tr>
+      <tr><td><strong>Trade-off:</strong></td><td>Reprodutivel e sem custo, mas requer Python intermediario e muito tempo em edge cases.</td></tr>
+    </table>
+  </div>
+
+  <div class="card approach-card">
+    <h3>Opcao D: Qualtrics Hybrid (manual via formulario)</h3>
+    <p>Recriar questionario no Qualtrics. Operadores transcrevem respostas dos .docx manualmente.</p>
+    <table style="margin-top:0.8rem;">
+      <tr><td><strong>Esforco</strong></td><td>15-25 dias</td></tr>
+      <tr><td><strong>Risco</strong></td><td><span class="badge badge-low">Baixo</span></td></tr>
+      <tr><td><strong>Qualidade</strong></td><td>Alta (validacao built-in)</td></tr>
+      <tr><td><strong>Custo</strong></td><td>$0-500 (licenca Qualtrics)</td></tr>
+      <tr><td><strong>Trade-off:</strong></td><td>Zero codigo, mas lento e tedioso. Fadiga do operador = erros.</td></tr>
+    </table>
+  </div>
+
+  <div class="card approach-card">
+    <h3>Opcao E: n8n Workflow Automation</h3>
+    <p>Workflow visual: le .docx &rarr; converte texto &rarr; LLM node &rarr; JSON &rarr; Excel.</p>
+    <table style="margin-top:0.8rem;">
+      <tr><td><strong>Esforco</strong></td><td>10-15 dias</td></tr>
+      <tr><td><strong>Risco</strong></td><td><span class="badge badge-medium">Medio-Alto</span></td></tr>
+      <tr><td><strong>Qualidade</strong></td><td>Media-Alta</td></tr>
+      <tr><td><strong>Trade-off:</strong></td><td>Visual e reusavel, mas menos flexivel para debugging de edge cases.</td></tr>
+    </table>
+  </div>
+
+  <div class="card approach-card">
+    <h3>Opcao F: Entrada Manual em Excel</h3>
+    <p>Template Excel com ~573 colunas. Abrir cada .docx lado a lado e digitar.</p>
+    <table style="margin-top:0.8rem;">
+      <tr><td><strong>Esforco</strong></td><td>40-60 dias (1 pessoa)</td></tr>
+      <tr><td><strong>Risco</strong></td><td><span class="badge badge-high">Alto</span> (erro humano)</td></tr>
+      <tr><td><strong>Qualidade</strong></td><td>Variavel (fadiga)</td></tr>
+      <tr><td><strong>Trade-off:</strong></td><td>Ultimo recurso. Inviavel para 100 questionarios.</td></tr>
+    </table>
+  </div>
+
+  <div class="card" style="background:#fffff0; border-color:#ecc94b;">
+    <h3>Tabela Comparativa Resumida</h3>
+    <table>
+      <tr><th>Abordagem</th><th>Dias</th><th>Risco</th><th>Qualidade</th><th>Custo Extra</th><th>Python?</th></tr>
+      <tr style="background:#f0fff4;"><td><strong>Hibrido (recomendado)</strong></td><td><strong>7-12</strong></td><td>Medio-Baixo</td><td>Alta</td><td>$15-40</td><td>Basico</td></tr>
+      <tr><td>IA Puro</td><td>8-12</td><td>Medio</td><td>Media-Alta</td><td>$30-80</td><td>Nao</td></tr>
+      <tr><td>Full Python</td><td>12-18</td><td>Medio-Alto</td><td>Alta</td><td>$0</td><td>Intermediario</td></tr>
+      <tr><td>Qualtrics</td><td>15-25</td><td>Baixo</td><td>Alta</td><td>$0-500</td><td>Nao</td></tr>
+      <tr><td>n8n</td><td>10-15</td><td>Medio-Alto</td><td>Media-Alta</td><td>$15-40</td><td>Nao</td></tr>
+      <tr><td>Manual</td><td>40-60</td><td>Alto</td><td>Variavel</td><td>$0</td><td>Nao</td></tr>
+    </table>
+    <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--muted);"><em>Nota: "Dias" refere-se apenas a fase de extracao. O projeto total (discovery + codebook + extracao + QA + entrega) adiciona ~15 dias.</em></p>
+  </div>
+</div>
+
+<!-- ==================== ACHADOS TECNICOS ==================== -->
+<div id="technical" class="panel">
+  <h2 style="margin-bottom:1rem; color:var(--primary);">Achados Tecnicos (Analise XML)</h2>
+  <p style="margin-bottom:1rem; color:var(--muted);">Analise direta da estrutura interna dos arquivos .docx.</p>
+
+  <div class="card" style="background:#f0fff4; border-color:var(--success);">
+    <h3 style="color:var(--success);">Boas Noticias</h3>
+    <ul style="padding-left:1.2rem;">
+      <li><strong>Checkboxes sao Form Fields reais do Word</strong> (w:ffData/w:checkBox) &mdash; nao Unicode, nao imagens, nao Wingdings. Isso e otimo: o estado (checked/unchecked) e legivel diretamente no XML.</li>
+      <li><strong>Estrutura de tabela unica e consistente</strong> &mdash; 1 tabela, 109 linhas, 3 colunas (label, pergunta, resposta).</li>
+      <li><strong>Codebook STATA-compatible</strong> &mdash; 573 variaveis, ZERO problemas de compatibilidade (nenhum nome > 32 chars, nenhum espaco, nenhum char especial, nenhuma duplicata).</li>
+    </ul>
+  </div>
+
+  <div class="card" style="background:#fff5f5; border-color:var(--danger);">
+    <h3 style="color:var(--danger);">Alertas Criticos</h3>
+    <ul style="padding-left:1.2rem;">
+      <li><strong>Questionarios fake NAO usam os checkboxes</strong> &mdash; O exemplo preenchido do Kenya tem 409 checkboxes mas TODOS desmarcados. As respostas foram digitadas como texto nas celulas, nao clicando nos checkboxes. <em>Isso significa que os fakes nao sao confiaveis como referencia de formato.</em></li>
+      <li><strong>NAO sabemos como os questionarios REAIS foram preenchidos</strong> &mdash; Respondentes reais podem ter: (a) clicado nos checkboxes, (b) digitado texto, (c) deletado opcoes nao-selecionadas, (d) feito qualquer combinacao. Isso e o maior risco desconhecido.</li>
+      <li><strong>478 checkboxes no template vs. 409 no fake</strong> &mdash; 69 checkboxes "sumiram" no preenchimento. Respondentes podem ter deletado linhas ou modificado a estrutura.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Estrutura do Documento Word</h3>
+    <table>
+      <tr><th>Elemento</th><th>Template em Branco</th><th>Fake Preenchido (Kenya)</th></tr>
+      <tr><td>Tabelas</td><td>1</td><td>1</td></tr>
+      <tr><td>Linhas na tabela</td><td>109</td><td>109</td></tr>
+      <tr><td>Colunas (maioria)</td><td>3</td><td>3</td></tr>
+      <tr><td>Checkboxes (w:checkBox)</td><td>478</td><td>409</td></tr>
+      <tr><td>Form fields (w:ffData)</td><td>478</td><td>409</td></tr>
+      <tr><td>Content controls (w:sdt)</td><td>0</td><td>0</td></tr>
+      <tr><td>Unicode checkbox chars</td><td>0</td><td>0</td></tr>
+      <tr><td>Symbol elements (Wingdings)</td><td>0</td><td>0</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Como as Respostas Aparecem (Fake Kenya)</h3>
+    <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.8rem;">No questionario fake, respostas sao texto concatenado na coluna 3 &mdash; nao checkboxes marcados.</p>
+    <table>
+      <tr><th>Campo</th><th>Resposta (como aparece na celula)</th></tr>
+      <tr><td>Country</td><td><code>Kenya</code></td></tr>
+      <tr><td>Organization</td><td><code>Name of the organization: Ministry of Labour...Type: Government ministry or agency</code></td></tr>
+      <tr><td>Website</td><td><code>YesURL: https://www.kazimtaani.go.ke</code></td></tr>
+      <tr><td>Targets</td><td><code>YesTarget 1: Enrol 300,000 youth...Target 2: Place 150,000...</code></td></tr>
+      <tr><td>LM Activation</td><td><code>Education & training, Employment services, Self-employment...</code></td></tr>
+    </table>
+    <p style="margin-top:0.5rem; font-size:0.85rem;"><strong>Implicacao:</strong> Se os reais tambem usam texto (provavel), o parsing depende de NLP/IA para interpretar &mdash; nao de leitura de estado de checkbox.</p>
+  </div>
+</div>
+
+<!-- ==================== ESTIMATIVAS ==================== -->
+<div id="estimates" class="panel">
+  <h2 style="margin-bottom:1rem; color:var(--primary);">Estimativas de Esforco</h2>
+
+  <div class="scenario-grid" style="margin-bottom:1.5rem;">
+    <div class="scenario best">
+      <div class="label">BEST CASE</div>
+      <div class="days" style="color:#276749;">17d</div>
+      <div class="label">~3.5 semanas</div>
+      <p style="font-size:0.8rem; margin-top:0.5rem; color:var(--muted);">Questionarios limpos, formato consistente, poucos edge cases</p>
+    </div>
+    <div class="scenario expected">
+      <div class="label">ESPERADO</div>
+      <div class="days" style="color:#975a16;">26d</div>
+      <div class="label">~5.5 semanas</div>
+      <p style="font-size:0.8rem; margin-top:0.5rem; color:var(--muted);">60-70% seguem template, 20-30% com variacoes menores, 5-10% problematicos</p>
+    </div>
+    <div class="scenario worst">
+      <div class="label">WORST CASE</div>
+      <div class="days" style="color:#c53030;">40d</div>
+      <div class="label">~8 semanas</div>
+      <p style="font-size:0.8rem; margin-top:0.5rem; color:var(--muted);"><50% seguem template, multiplas versoes, formatos inconsistentes</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Breakdown por Fase (dias uteis de 8h)</h3>
+    <table>
+      <tr><th>Fase</th><th>Best</th><th>Esperado</th><th>Worst</th><th>Notas</th></tr>
+      <tr><td>0. Due Diligence (pre-contrato)</td><td>1.0</td><td>1.5</td><td>2.1</td><td>Obter e analisar questionarios reais</td></tr>
+      <tr><td>1. Discovery &amp; Scoping</td><td>1.8</td><td>2.5</td><td>3.4</td><td>Entender dados reais, documentar estrategia</td></tr>
+      <tr><td>2. Codebook &amp; Template</td><td>2.5</td><td>3.4</td><td>4.8</td><td>Verificar/corrigir codebook, criar template Excel</td></tr>
+      <tr style="background:#fff5f5;"><td><strong>3. Extracao (maior risco)</strong></td><td><strong>4.4</strong></td><td><strong>6.6</strong></td><td><strong>10.1</strong></td><td>Construir pipeline de extracao</td></tr>
+      <tr style="background:#fff5f5;"><td><strong>4. Testing &amp; Iteracao</strong></td><td><strong>3.1</strong></td><td><strong>5.5</strong></td><td><strong>9.3</strong></td><td>Piloto, escalar, iterar</td></tr>
+      <tr><td>5. QA &amp; Revisao Manual</td><td>2.5</td><td>4.1</td><td>6.5</td><td>Spot-check, correcoes, flags</td></tr>
+      <tr><td>6. STATA &amp; Entrega</td><td>2.0</td><td>2.6</td><td>3.6</td><td>Validacao STATA, .do file, docs</td></tr>
+      <tr style="font-weight:700; background:#edf2f7;"><td>TOTAL</td><td>17.3d</td><td>26.3d</td><td>39.8d</td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="card" style="background:#fffff0; border-color:#ecc94b;">
+    <h3>Recomendacao de Proposta</h3>
+    <p><strong>Orcar pelo cenario esperado + 20% buffer = ~32 dias uteis.</strong></p>
+    <p style="margin-top:0.5rem;">Se os questionarios forem mais limpos que o esperado, entrega antecipada. Se piores, o buffer absorve parte.</p>
+    <p style="margin-top:0.5rem;"><strong>Estrutura sugerida:</strong> Contrato por fases com go/no-go apos piloto (Fase 4.2).</p>
+  </div>
+
+  <div class="card">
+    <h3>Onde o Tempo Vai (caso esperado)</h3>
+    <div style="margin:0.5rem 0;">
+      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>Extracao + Testing (Fases 3-4)</span><span><strong>12.1d</strong> (46%)</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:46%; background:#e53e3e;">46%</div></div>
+    </div>
+    <div style="margin:0.5rem 0;">
+      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>QA &amp; Revisao (Fase 5)</span><span><strong>4.1d</strong> (16%)</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:16%; background:#ed8936;">16%</div></div>
+    </div>
+    <div style="margin:0.5rem 0;">
+      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>Codebook &amp; Template (Fase 2)</span><span><strong>3.4d</strong> (13%)</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:13%; background:#ecc94b;">13%</div></div>
+    </div>
+    <div style="margin:0.5rem 0;">
+      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>Restante (Fases 0,1,6)</span><span><strong>6.6d</strong> (25%)</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:25%; background:#4299e1;">25%</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== RISCOS ==================== -->
+<div id="risks" class="panel">
+  <h2 style="margin-bottom:1rem; color:var(--primary);">Pre-Mortem: Analise de Riscos</h2>
+  <p style="margin-bottom:1rem; color:var(--muted);">"Estamos em maio 2026 e o projeto fracassou. O que deu errado?"</p>
+
+  <div class="card risk-high">
+    <h3>1. Questionarios reais nao seguem o template</h3>
+    <p>Respondentes modificaram formatacao, tabelas quebradas, celulas fundidas, texto fora das caixas, formatos inesperados.</p>
+    <p><span class="badge badge-high">Probabilidade: ALTA</span> <span class="badge badge-high">Impacto: ALTO</span></p>
+    <p style="margin-top:0.5rem;"><strong>Mitigacao:</strong> Pedir 3-5 questionarios reais ANTES de assinar. Se o cliente recusar, nao aceitar.</p>
+  </div>
+
+  <div class="card risk-high">
+    <h3>2. Codebook AI-generated esta errado</h3>
+    <p>Variaveis mal nomeadas, codificacoes inconsistentes, secoes faltando. Cliente rejeita primeira entrega.</p>
+    <p><span class="badge badge-high">Probabilidade: ALTA</span> <span class="badge badge-high">Impacto: ALTO</span></p>
+    <p style="margin-top:0.5rem;"><strong>Mitigacao:</strong> Exigir codebook oficial da ILO ou incluir criacao/validacao no escopo (e no preco).</p>
+  </div>
+
+  <div class="card risk-high">
+    <h3>3. Escopo flutuante &mdash; cliente espera mais que "um Excel"</h3>
+    <p>Expectativa de limpeza de dados, harmonizacao, .dta STATA com labels, analises exploratorias, documentacao completa.</p>
+    <p><span class="badge badge-high">Probabilidade: ALTA</span> <span class="badge badge-high">Impacto: ALTO</span></p>
+    <p style="margin-top:0.5rem;"><strong>Mitigacao:</strong> Lista exata de deliverables por escrito ANTES de assinar. Quantas rodadas de revisao.</p>
+  </div>
+
+  <div class="card risk-high">
+    <h3>4. Extracao por IA nao e confiavel o suficiente</h3>
+    <p>Claude alucina valores, tabelas complexas parseadas incorretamente, taxa de erro acumulada nos 100 questionarios.</p>
+    <p><span class="badge badge-medium">Probabilidade: MEDIA-ALTA</span> <span class="badge badge-high">Impacto: ALTO</span></p>
+    <p style="margin-top:0.5rem;"><strong>Mitigacao:</strong> Pipeline com validacao humana obrigatoria. Nao prometer 100% automacao.</p>
+  </div>
+
+  <div class="card risk-medium">
+    <h3>5. Subestimar tempo para edge cases</h3>
+    <p>"Cauda longa" de problemas: respostas ambiguas, formatos numericos variados, inconsistencias internas. 40.000-50.000 data points para validar.</p>
+    <p><span class="badge badge-high">Probabilidade: ALTA</span> <span class="badge badge-medium">Impacto: MEDIO-ALTO</span></p>
+    <p style="margin-top:0.5rem;"><strong>Mitigacao:</strong> Buffer de 50% sobre estimativas. Entrega em fases com go/no-go.</p>
+  </div>
+
+  <details>
+    <summary>6. Problemas de qualidade dos dados culpam o executor</summary>
+    <div><p>Dados de origem ruins (respostas incompletas, contraditorias). Sem criterio claro sobre tratamento.</p>
+    <p><span class="badge badge-medium">Probabilidade: MEDIA</span> <span class="badge badge-high">Impacto: ALTO</span></p>
+    <p><strong>Mitigacao:</strong> Exigir protocolo de decisoes + log de todas decisoes tomadas.</p></div>
+  </details>
+
+  <details>
+    <summary>7. Dependencia de Python sem experiencia</summary>
+    <div><p>Bugs sutis (encoding, Unicode, tipos) consomem tempo desproporcional.</p>
+    <p><span class="badge badge-medium">Probabilidade: MEDIA</span> <span class="badge badge-medium">Impacto: MEDIO</span></p>
+    <p><strong>Mitigacao:</strong> Abordagem hibrida. Ou 1 dia de dev Python para montar pipeline base.</p></div>
+  </details>
+
+  <details>
+    <summary>8. Prazo irrealista para uma pessoa</summary>
+    <div><p>100 questionarios x 450+ variaveis. Tempo efetivo pode ser 3-4 semanas com outras obrigacoes.</p>
+    <p><span class="badge badge-medium">Probabilidade: MEDIA</span> <span class="badge badge-high">Impacto: ALTO</span></p>
+    <p><strong>Mitigacao:</strong> Calculo realista de dias efetivos disponiveis. Negociar prazo ou escopo.</p></div>
+  </details>
+
+  <details>
+    <summary>9. Formatos .docx especificos</summary>
+    <div><p>Alguns podem ser .doc antigo, protegidos, com Track Changes, versoes diferentes do template, ou criados em LibreOffice.</p>
+    <p><span class="badge badge-medium">Probabilidade: MEDIA</span> <span class="badge badge-medium">Impacto: MEDIO-ALTO</span></p>
+    <p><strong>Mitigacao:</strong> Confirmar que TODOS sao .docx e mesma versao do template.</p></div>
+  </details>
+
+  <details>
+    <summary>10. Contrato nao cobre iteracoes</summary>
+    <div><p>Revisoes sem fim. Cada rodada quase tao trabalhosa quanto a primeira entrega.</p>
+    <p><span class="badge badge-medium">Probabilidade: MEDIA</span> <span class="badge badge-medium">Impacto: MEDIO</span></p>
+    <p><strong>Mitigacao:</strong> Max 2 rodadas de revisao no contrato. Revisoes estruturais = aditivo.</p></div>
+  </details>
+</div>
+
+<!-- ==================== PERGUNTAS ==================== -->
+<div id="questions" class="panel">
+  <h2 style="margin-bottom:1rem; color:var(--primary);">Perguntas para a Reuniao com a ILO</h2>
+  <p style="margin-bottom:1rem; color:var(--muted);">18 perguntas organizadas por categoria. Marque as que ja foram respondidas.</p>
+
+  <div style="margin-bottom:1.5rem;">
+    <div class="question-category">Sobre os Dados de Entrada</div>
+    <div class="question-list">
+      <div class="question-item"><span class="question-num">1.</span><span><strong>Posso receber 3-5 questionarios REAIS preenchidos agora, antes de fechar escopo?</strong> <em>(Se nao, red flag critico.)</em></span></div>
+      <div class="question-item"><span class="question-num">2.</span><span>Todos os ~100 questionarios sao .docx? Algum e .doc (antigo), PDF, ou escaneado?</span></div>
+      <div class="question-item"><span class="question-num">3.</span><span>Todos usam exatamente a mesma versao do template? Houve versoes diferentes ao longo do tempo?</span></div>
+      <div class="question-item"><span class="question-num">4.</span><span>Em que idiomas estao preenchidos? (So ingles? Alguns em frances, espanhol, arabe?)</span></div>
+      <div class="question-item"><span class="question-num">5.</span><span>Quantos estao completos vs. parcialmente preenchidos?</span></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1.5rem;">
+    <div class="question-category">Sobre o Deliverable Esperado</div>
+    <div class="question-list">
+      <div class="question-item"><span class="question-num">6.</span><span><strong>Qual e o formato EXATO do output?</strong> (.xlsx? .dta? .csv? Todos? .do file?)</span></div>
+      <div class="question-item"><span class="question-num">7.</span><span>O codebook ja existe oficialmente ou precisa ser criado? Se existe, onde esta?</span></div>
+      <div class="question-item"><span class="question-num">8.</span><span>Quem define a codificacao das variaveis? A ILO tem padrao ou eu posso decidir?</span></div>
+      <div class="question-item"><span class="question-num">9.</span><span>Respostas abertas (texto livre) devem ser incluidas como estao ou categorizadas/codificadas?</span></div>
+      <div class="question-item"><span class="question-num">10.</span><span>O que fazer quando a resposta e ambigua, faltante, ou contraditoria? Existe protocolo?</span></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1.5rem;">
+    <div class="question-category">Sobre o Contrato</div>
+    <div class="question-list">
+      <div class="question-item"><span class="question-num">11.</span><span>Qual e o prazo EXATO e quantos dias/horas estao contemplados?</span></div>
+      <div class="question-item"><span class="question-num">12.</span><span><strong>Quantas rodadas de revisao estao incluidas?</strong></span></div>
+      <div class="question-item"><span class="question-num">13.</span><span>Se o escopo crescer (mais variaveis, limpeza, etc.), como e tratado? Aditivo?</span></div>
+      <div class="question-item"><span class="question-num">14.</span><span>Ha orcamento para contratar assistente se necessario?</span></div>
+      <div class="question-item"><span class="question-num">15.</span><span>Quem faz a validacao final? A ILO tem equipe de QA?</span></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1.5rem;">
+    <div class="question-category">Sobre o Contexto</div>
+    <div class="question-list">
+      <div class="question-item"><span class="question-num">16.</span><span>Para que sera usado o dataset? Publicacao? Pesquisa interna? (Muda o rigor exigido.)</span></div>
+      <div class="question-item"><span class="question-num">17.</span><span><strong>Alguem ja tentou fazer isso antes? Por que nao deu certo?</strong> <em>(Red flag se ja tentaram e falharam.)</em></span></div>
+      <div class="question-item"><span class="question-num">18.</span><span>Existe deadline externo rigido (publicacao, conferencia)?</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DEAL-BREAKERS ==================== -->
+<div id="dealbreakers" class="panel">
+  <h2 style="margin-bottom:1rem; color:var(--primary);">Deal-Breakers &amp; Regras de Decisao</h2>
+
+  <div class="card" style="background:#fff5f5; border: 2px solid var(--danger);">
+    <h3 style="color:var(--danger);">NAO aceitar se:</h3>
+    <ul style="padding-left:1.2rem; line-height: 2;">
+      <li>O cliente <strong>recusa enviar questionarios reais</strong> antes da assinatura</li>
+      <li><strong>Nao existe codebook oficial</strong> e esperam que voce crie E valide (duplica/triplica escopo)</li>
+      <li>Prazo inferior a <strong>6 semanas</strong> para uma pessoa</li>
+      <li>Questionarios em <strong>multiplos idiomas</strong> sem traducao prevista</li>
+      <li>Parte dos questionarios sao <strong>escaneados/PDFs de papel</strong> (OCR = projeto diferente)</li>
+    </ul>
+  </div>
+
+  <div class="card" style="background:#fffff0; border: 2px solid #ecc94b;">
+    <h3 style="color:#975a16;">Cautela extra se:</h3>
+    <ul style="padding-left:1.2rem; line-height: 2;">
+      <li>Respostas vagas sobre escopo e deliverables</li>
+      <li>"A gente ve isso durante o projeto" como resposta a questoes criticas</li>
+      <li>Nao ha pessoa tecnica de contato na ILO para duvidas durante execucao</li>
+      <li>Os documentos preparatorios sao todos AI-generated (ninguem da ILO validou?)</li>
+      <li>Ja tentaram antes e falharam (por que desta vez seria diferente?)</li>
+    </ul>
+  </div>
+
+  <div class="card" style="background:#f0fff4; border: 2px solid var(--success);">
+    <h3 style="color:var(--success);">Sinal verde se:</h3>
+    <ul style="padding-left:1.2rem; line-height: 2;">
+      <li>Fornecem 5+ questionarios reais e a maioria segue o template</li>
+      <li>Codebook oficial existe e esta alinhado com o template</li>
+      <li>Prazo de 8+ semanas com entrega em fases</li>
+      <li>Todos os questionarios sao .docx em ingles</li>
+      <li>Ponto de contato tecnico dedicado para duvidas</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Entrega Minima Viavel (se tudo der errado)</h3>
+    <p>Se o projeto descarrilar, o que preserva sua reputacao:</p>
+    <ol style="padding-left:1.2rem; line-height: 2;">
+      <li><strong>Pipeline funcional para o "happy path"</strong> &mdash; funciona nos 40-60% limpos</li>
+      <li><strong>Dataset parcial + log de problemas</strong> &mdash; documentacao de por que os demais falharam</li>
+      <li><strong>Template validado</strong> &mdash; estrutura correta mesmo que dados incompletos</li>
+      <li><strong>Manual de procedimento</strong> &mdash; para outra pessoa completar manualmente</li>
+      <li><strong>Proposta de Fase 2</strong> &mdash; escopo do que falta, quanto tempo, quanto custa</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ==================== GLOSSARIO ==================== -->
+<div id="glossary" class="panel">
+  <h2 style="margin-bottom:1rem; color:var(--primary);">Glossario &mdash; Termos para a Reuniao</h2>
+  <p style="margin-bottom:1rem; color:var(--muted);">Vocabulario ILO e termos tecnicos que podem surgir.</p>
+
+  <div class="card">
+    <h3>Termos ILO / Policy</h3>
+    <table>
+      <tr><th>Termo</th><th>O que significa</th></tr>
+      <tr><td>ALMP</td><td>Active Labour Market Programme &mdash; programas governamentais/ONG para ajudar pessoas a encontrar emprego (treinamento, subsidios, obras publicas)</td></tr>
+      <tr><td>Data collection instrument</td><td>O questionario Word usado para coletar dados</td></tr>
+      <tr><td>Codebook</td><td>Dicionario de variaveis: nome, label, tipo, valores permitidos</td></tr>
+      <tr><td>Delivery chain</td><td>Cadeia de entrega do programa: outreach &rarr; intake &rarr; assessment &rarr; referrals &rarr; provision &rarr; monitoring</td></tr>
+      <tr><td>M&amp;E framework</td><td>Monitoring &amp; Evaluation &mdash; sistema de acompanhamento e avaliacao de resultados</td></tr>
+      <tr><td>Beneficiaries (direct/ultimate)</td><td>Diretos = quem opera o programa. Finais = quem recebe os servicos.</td></tr>
+      <tr><td>ILOSTAT</td><td>Plataforma de estatisticas da ILO (ilostat.ilo.org)</td></tr>
+      <tr><td>ALMP Compendium</td><td>Dataset comparativo anterior (America Latina). Este projeto parece ser expansao global.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Termos Tecnicos</h3>
+    <table>
+      <tr><th>Termo</th><th>O que significa</th><th>Por que importa</th></tr>
+      <tr><td>STATA</td><td>Software de analise estatistica muito usado em economia e policy</td><td>O dataset precisa seguir regras especificas de STATA</td></tr>
+      <tr><td>python-docx</td><td>Biblioteca Python para ler/escrever arquivos Word</td><td>Principal ferramenta para extracao automatizada</td></tr>
+      <tr><td>Form fields (w:ffData)</td><td>Checkboxes reais do Word (nao texto)</td><td>478 checkboxes no template &mdash; estado legivel no XML</td></tr>
+      <tr><td>Binary/dummy variable</td><td>Variavel que so pode ser 0 ou 1</td><td>385 das 573 variaveis sao deste tipo</td></tr>
+      <tr><td>Value labels</td><td>Mapeamento numero &rarr; texto (1=Yes, 2=No)</td><td>Essencial para analise no STATA</td></tr>
+      <tr><td>Semi-automated extraction</td><td>Script extrai + humano valida</td><td>Abordagem recomendada para este projeto</td></tr>
+      <tr><td>Edge case</td><td>Caso raro/inesperado que quebra a automacao</td><td>Principal fonte de atraso no projeto</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Contexto Estrategico ILO</h3>
+    <ul style="padding-left:1.2rem; line-height: 2;">
+      <li>A ILO ja tem o <strong>ALMP Compendium</strong> para America Latina &mdash; este projeto e provavelmente uma expansao global</li>
+      <li>A ILO <strong>investe em automacao de dados</strong> (ILOSTAT) &mdash; valorizam pipelines reprodutiveis, nao processos one-off</li>
+      <li>STATA e a <strong>ferramenta padrao institucional</strong> da ILO para processamento de microdados</li>
+      <li>O questionario anual do ILOSTAT ja usa <strong>Excel padronizado</strong> &mdash; eles conhecem as dificuldades de padronizacao</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>
