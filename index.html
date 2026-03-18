@@ -15,19 +15,21 @@
     --card: #ffffff;
     --border: #e2e8f0;
     --text: #2d3748;
-    --muted: #718096;
+    --muted: #596b7d;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
-  header { background: var(--primary); color: white; padding: 2rem; text-align: center; }
-  header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
-  header p { opacity: 0.8; font-size: 0.95rem; }
+  header { background: linear-gradient(135deg, var(--primary) 0%, #2d4a7a 100%); color: white; padding: 2.5rem 2rem 2rem; text-align: center; }
+  header h1 { font-size: 1.8rem; margin-bottom: 0.3rem; letter-spacing: -0.01em; }
+  header .subtitle { font-size: 1rem; opacity: 0.9; font-weight: 500; }
+  header .meta { opacity: 0.85; font-size: 0.85rem; margin-top: 0.3rem; }
 
-  .tabs { display: flex; background: #2d4a7a; overflow-x: auto; position: sticky; top: 0; z-index: 100; }
-  .tab { padding: 0.8rem 1.2rem; color: rgba(255,255,255,0.7); cursor: pointer; border: none; background: none; font-size: 0.9rem; white-space: nowrap; transition: all 0.2s; }
+  .tabs { display: flex; background: #2d4a7a; overflow-x: auto; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  .tab { padding: 0.8rem 1.2rem; color: rgba(255,255,255,0.85); cursor: pointer; border: none; background: none; font-size: 0.85rem; white-space: nowrap; transition: all 0.2s; font-family: inherit; min-height: 44px; }
   .tab:hover { color: white; background: rgba(255,255,255,0.1); }
   .tab.active { color: white; background: var(--accent); font-weight: 600; }
+  .tab:focus-visible { outline: 2px solid #63b3ed; outline-offset: -2px; }
 
   .panel { display: none; padding: 1.5rem; max-width: 1100px; margin: 0 auto; }
   .panel.active { display: block; }
@@ -40,17 +42,24 @@
   .metric .value { font-size: 2rem; font-weight: 700; color: var(--accent); }
   .metric .label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
 
-  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-  th { background: var(--primary); color: white; padding: 0.7rem; text-align: left; position: sticky; top: 44px; }
-  td { padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th { background: var(--primary); color: white; padding: 0.7rem; text-align: left; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  td { padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border); vertical-align: top; }
   tr:hover { background: #edf2f7; }
+  tr:nth-child(even) { background: #fafbfc; }
+  tr:nth-child(even):hover { background: #edf2f7; }
 
   .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
   .badge-high { background: #fed7d7; color: var(--danger); }
+  .badge-high::before { content: "\25B2 "; font-size: 0.65rem; }
   .badge-medium { background: #fefcbf; color: #975a16; }
+  .badge-medium::before { content: "\25C6 "; font-size: 0.65rem; }
   .badge-low { background: #c6f6d5; color: var(--success); }
+  .badge-low::before { content: "\25CF "; font-size: 0.65rem; }
   .badge-critical { background: var(--danger); color: white; }
+  .badge-critical::before { content: "\25B2 "; font-size: 0.65rem; }
   .badge-ok { background: var(--success); color: white; }
+  .badge-ok::before { content: "\2713 "; font-size: 0.7rem; }
 
   details { margin-bottom: 0.8rem; }
   details summary { cursor: pointer; font-weight: 600; color: var(--accent); padding: 0.5rem 0; }
@@ -84,18 +93,44 @@
   .question-num { color: var(--accent); font-weight: 700; min-width: 24px; }
 
   .progress-bar { height: 24px; background: #e2e8f0; border-radius: 12px; overflow: hidden; margin: 0.5rem 0; }
-  .progress-fill { height: 100%; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: white; font-weight: 600; }
+  .progress-fill { height: 100%; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: #1a202c; font-weight: 600; }
 
   @media (max-width: 768px) {
+    header { padding: 1.5rem 1rem; }
+    header h1 { font-size: 1.4rem; }
     .metric-grid { grid-template-columns: repeat(2, 1fr); }
     .scenario-grid { grid-template-columns: 1fr; }
     .tabs { flex-wrap: wrap; }
+    .tab { padding: 0.6rem 0.8rem; font-size: 0.8rem; }
+    .panel { padding: 1rem; }
+    .card { padding: 1rem; }
+    table { font-size: 0.78rem; }
+    th, td { padding: 0.4rem 0.5rem; }
+    .question-item { font-size: 0.88rem; }
+  }
+
+  @media (max-width: 480px) {
+    .metric-grid { grid-template-columns: 1fr; }
+    .metric .value { font-size: 1.5rem; }
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   }
 
   @media print {
+    body { background: white; font-size: 11pt; }
     .tabs { display: none; }
-    .panel { display: block !important; page-break-before: always; }
+    .panel { display: block !important; page-break-before: always; padding: 0; max-width: 100%; }
     .panel:first-of-type { page-break-before: avoid; }
+    header { background: var(--primary) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 1rem; }
+    .card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+    .metric { border: 1px solid #ccc; }
+    .scenario { border: 1px solid #ccc; }
+    details { open: true; }
+    details > div { display: block; }
+    th { background: var(--primary) !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .badge { border: 1px solid currentColor; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .progress-bar { border: 1px solid #ccc; }
+    .progress-fill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    a { text-decoration: none; }
   }
 </style>
 </head>
@@ -103,18 +138,19 @@
 
 <header>
   <h1>ILO ALMP Dataset Project</h1>
-  <p>Meeting Preparation Briefing &mdash; Consolidado em 18 Mar 2026</p>
+  <div class="subtitle">Meeting Preparation Briefing</div>
+  <div class="meta">Consolidado em 18 Mar 2026 &mdash; Documento interno de prepara&ccedil;&atilde;o</div>
 </header>
 
 <div class="tabs">
-  <button class="tab active" onclick="showTab('overview')">Panorama</button>
-  <button class="tab" onclick="showTab('approaches')">Abordagens</button>
-  <button class="tab" onclick="showTab('technical')">Achados Tecnicos</button>
-  <button class="tab" onclick="showTab('estimates')">Estimativas</button>
-  <button class="tab" onclick="showTab('risks')">Riscos</button>
-  <button class="tab" onclick="showTab('questions')">Perguntas p/ ILO</button>
-  <button class="tab" onclick="showTab('dealbreakers')">Deal-Breakers</button>
-  <button class="tab" onclick="showTab('glossary')">Glossario</button>
+  <button class="tab active" role="tab" aria-selected="true" onclick="showTab('overview',this)">Panorama</button>
+  <button class="tab" role="tab" aria-selected="false" onclick="showTab('approaches',this)">Abordagens</button>
+  <button class="tab" role="tab" aria-selected="false" onclick="showTab('technical',this)">Achados T&eacute;cnicos</button>
+  <button class="tab" role="tab" aria-selected="false" onclick="showTab('estimates',this)">Estimativas</button>
+  <button class="tab" role="tab" aria-selected="false" onclick="showTab('risks',this)">Riscos</button>
+  <button class="tab" role="tab" aria-selected="false" onclick="showTab('questions',this)">Perguntas p/ ILO</button>
+  <button class="tab" role="tab" aria-selected="false" onclick="showTab('dealbreakers',this)">Deal-Breakers</button>
+  <button class="tab" role="tab" aria-selected="false" onclick="showTab('glossary',this)">Gloss&aacute;rio</button>
 </div>
 
 <!-- ==================== PANORAMA ==================== -->
@@ -140,7 +176,7 @@
       <div class="label">Linhas na Tabela</div>
     </div>
     <div class="metric">
-      <div class="value">10</div>
+      <div class="value">9</div>
       <div class="label">Secoes do Questionario</div>
     </div>
     <div class="metric">
@@ -204,7 +240,7 @@
     <table style="margin-top:0.8rem;">
       <tr><td><strong>Esforco</strong></td><td>7-12 dias (script) + QA</td></tr>
       <tr><td><strong>Risco tecnico</strong></td><td><span class="badge badge-medium">Medio-Baixo</span></td></tr>
-      <tr><td><strong>Qualidade</strong></td><td><span class="badge badge-ok">Alta</span> (melhor dos dois mundos)</td></tr>
+      <tr><td><strong>Qualidade</strong></td><td><span class="badge badge-ok">Alta</span> (combina precisao do script com flexibilidade da IA)</td></tr>
       <tr><td><strong>Custo API</strong></td><td>$15-40 (tokens Claude)</td></tr>
       <tr><td><strong>Por que:</strong></td><td>Python garante extracao <em>deterministica</em> da estrutura. IA resolve o problema mais dificil: <em>interpretar</em> respostas ambiguas. Reduz custo de tokens (envia so tabela, nao doc inteiro).</td></tr>
     </table>
@@ -621,14 +657,26 @@
       <li>O questionario anual do ILOSTAT ja usa <strong>Excel padronizado</strong> &mdash; eles conhecem as dificuldades de padronizacao</li>
     </ul>
   </div>
+
+  <div class="card">
+    <h3>Inteligencia Interna ILO (para demonstrar conhecimento na reuniao)</h3>
+    <table>
+      <tr><th>Aspecto</th><th>Detalhe</th></tr>
+      <tr><td><strong>Departamento responsavel</strong></td><td>EMPLOYMENT Department, branch <strong>EMPLAB</strong> (Employment, Labour Markets and Youth) &mdash; chefiada por Dorothea Schmidt-Klau. Diretor do departamento: Sangheon Lee.</td></tr>
+      <tr><td><strong>Projeto "What Works"</strong></td><td>Liderado conjuntamente por EMPLAB + ILO Research Department (INST). Fase 1 cobriu LAC; Fase 2 (este projeto?) expande para economias emergentes globalmente.</td></tr>
+      <tr><td><strong>OECD ALMP Database</strong></td><td>A OECD classifica ALMPs em 9 categorias (Cat 1-7 = ativas, 8-9 = passivas). Se a ILO seguir padrao similar, perguntar sobre alinhamento com classificacao OECD.</td></tr>
+      <tr><td><strong>Publicacao recente</strong></td><td>OECD (mar 2025): "Counterfactual Impact Evaluations of ALMPs" &mdash; mostra que a agenda ALMP esta aquecida globalmente.</td></tr>
+      <tr><td><strong>Framing estrategico</strong></td><td>Nao apresentar como "fazer um Excel" &mdash; posicionar como <strong>"contribuir para o primeiro inventario global comparativo de ALMPs da ILO"</strong>. Muda completamente a escala percebida.</td></tr>
+    </table>
+  </div>
 </div>
 
 <script>
-function showTab(id) {
+function showTab(id, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  event.target.classList.add('active');
+  btn.classList.add('active');
 }
 </script>
 
