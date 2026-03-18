@@ -150,6 +150,7 @@
   <button class="tab" role="tab" aria-selected="false" onclick="showTab('risks',this)">Riscos</button>
   <button class="tab" role="tab" aria-selected="false" onclick="showTab('questions',this)">Perguntas p/ ILO</button>
   <button class="tab" role="tab" aria-selected="false" onclick="showTab('dealbreakers',this)">Deal-Breakers</button>
+  <button class="tab" role="tab" aria-selected="false" onclick="showTab('faq',this)">FAQ Reverso</button>
   <button class="tab" role="tab" aria-selected="false" onclick="showTab('glossary',this)">Gloss&aacute;rio</button>
 </div>
 
@@ -289,6 +290,7 @@
       <tr><td><strong>Esforco</strong></td><td>10-15 dias</td></tr>
       <tr><td><strong>Risco</strong></td><td><span class="badge badge-medium">Medio-Alto</span></td></tr>
       <tr><td><strong>Qualidade</strong></td><td>Media-Alta</td></tr>
+      <tr><td><strong>Custo API</strong></td><td>$15-40</td></tr>
       <tr><td><strong>Trade-off:</strong></td><td>Visual e reusavel, mas menos flexivel para debugging de edge cases.</td></tr>
     </table>
   </div>
@@ -315,7 +317,7 @@
       <tr><td>n8n</td><td>10-15</td><td>Medio-Alto</td><td>Media-Alta</td><td>$15-40</td><td>Nao</td></tr>
       <tr><td>Manual</td><td>40-60</td><td>Alto</td><td>Variavel</td><td>$0</td><td>Nao</td></tr>
     </table>
-    <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--muted);"><em>Nota: "Dias" refere-se apenas a fase de extracao. O projeto total (discovery + codebook + extracao + QA + entrega) adiciona ~15 dias.</em></p>
+    <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--muted);"><em>Nota: "Dias" refere-se apenas a fase de extracao. O projeto total (discovery + codebook + testing + QA + entrega) adiciona ~14-20 dias dependendo do cenario.</em></p>
   </div>
 </div>
 
@@ -408,7 +410,7 @@
       <tr style="background:#fff5f5;"><td><strong>4. Testing &amp; Iteracao</strong></td><td><strong>3.1</strong></td><td><strong>5.5</strong></td><td><strong>9.3</strong></td><td>Piloto, escalar, iterar</td></tr>
       <tr><td>5. QA &amp; Revisao Manual</td><td>2.5</td><td>4.1</td><td>6.5</td><td>Spot-check, correcoes, flags</td></tr>
       <tr><td>6. STATA &amp; Entrega</td><td>2.0</td><td>2.6</td><td>3.6</td><td>Validacao STATA, .do file, docs</td></tr>
-      <tr style="font-weight:700; background:#edf2f7;"><td>TOTAL</td><td>17.3d</td><td>26.3d</td><td>39.8d</td><td></td></tr>
+      <tr style="font-weight:700; background:#edf2f7;"><td>TOTAL</td><td>17.3d</td><td>26.2d</td><td>39.8d</td><td></td></tr>
     </table>
   </div>
 
@@ -473,11 +475,11 @@
     <p style="margin-top:0.5rem;"><strong>Mitigacao:</strong> Pipeline com validacao humana obrigatoria. Nao prometer 100% automacao.</p>
   </div>
 
-  <div class="card risk-medium">
+  <div class="card risk-high">
     <h3>5. Subestimar tempo para edge cases</h3>
     <p>"Cauda longa" de problemas: respostas ambiguas, formatos numericos variados, inconsistencias internas. 40.000-50.000 data points para validar.</p>
     <p><span class="badge badge-high">Probabilidade: ALTA</span> <span class="badge badge-medium">Impacto: MEDIO-ALTO</span></p>
-    <p style="margin-top:0.5rem;"><strong>Mitigacao:</strong> Buffer de 50% sobre estimativas. Entrega em fases com go/no-go.</p>
+    <p style="margin-top:0.5rem;"><strong>Mitigacao:</strong> Buffer de 20-50% sobre estimativas (20% no orcamento base, 50% como reserva interna). Entrega em fases com go/no-go.</p>
   </div>
 
   <details>
@@ -496,7 +498,7 @@
 
   <details>
     <summary>8. Prazo irrealista para uma pessoa</summary>
-    <div><p>100 questionarios x 450+ variaveis. Tempo efetivo pode ser 3-4 semanas com outras obrigacoes.</p>
+    <div><p>100 questionarios x 573 variaveis. Tempo efetivo pode ser 3-4 semanas com outras obrigacoes.</p>
     <p><span class="badge badge-medium">Probabilidade: MEDIA</span> <span class="badge badge-high">Impacto: ALTO</span></p>
     <p><strong>Mitigacao:</strong> Calculo realista de dias efetivos disponiveis. Negociar prazo ou escopo.</p></div>
   </details>
@@ -519,7 +521,7 @@
 <!-- ==================== PERGUNTAS ==================== -->
 <div id="questions" class="panel">
   <h2 style="margin-bottom:1rem; color:var(--primary);">Perguntas para a Reuniao com a ILO</h2>
-  <p style="margin-bottom:1rem; color:var(--muted);">18 perguntas organizadas por categoria. Marque as que ja foram respondidas.</p>
+  <p style="margin-bottom:1rem; color:var(--muted);">26 perguntas organizadas por categoria. Marque as que ja foram respondidas.</p>
 
   <div style="margin-bottom:1.5rem;">
     <div class="question-category">Sobre os Dados de Entrada</div>
@@ -632,6 +634,106 @@
       <li><strong>Manual de procedimento</strong> &mdash; para outra pessoa completar manualmente</li>
       <li><strong>Proposta de Fase 2</strong> &mdash; escopo do que falta, quanto tempo, quanto custa</li>
     </ol>
+  </div>
+</div>
+
+<!-- ==================== FAQ REVERSO ==================== -->
+<div id="faq" class="panel">
+  <h2 style="margin-bottom:1rem; color:var(--primary);">FAQ Reverso &mdash; Perguntas que a ILO pode fazer a voce</h2>
+  <p style="margin-bottom:1rem; color:var(--muted);">Prepare respostas para estas perguntas. Pratique em voz alta antes da reuniao.</p>
+
+  <div class="card">
+    <h3 style="color:var(--danger);">"Qual e a sua experiencia com este tipo de projeto?"</h3>
+    <p><strong>Como responder:</strong> Foque em competencias transferiveis, nao em projetos identicos. Destaque:</p>
+    <ul style="padding-left:1.2rem; margin-top:0.5rem; line-height:1.8;">
+      <li>Experiencia com STATA e manipulacao de datasets para analise de politicas publicas</li>
+      <li>Familiaridade com questionarios estruturados e instrumentos de coleta de dados</li>
+      <li>Capacidade de usar ferramentas de IA (Claude, etc.) para automatizar extracao e validacao de dados semi-estruturados</li>
+      <li>Conhecimento do ecossistema ILO: ILOSTAT, classificacao OECD de ALMPs, padrao SDMX</li>
+    </ul>
+    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Evite: dizer que nunca fez algo parecido. Redirecione para a metodologia que voce domina.</em></p>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--danger);">"Quanto tempo voce precisa e qual e o custo?"</h3>
+    <p><strong>Como responder:</strong> NAO dar numero fechado. Responder com condicional:</p>
+    <div style="background:#f7fafc; border-left:3px solid var(--accent); padding:0.8rem; margin-top:0.5rem;">
+      <p><em>"Isso depende fundamentalmente da qualidade e consistencia dos questionarios preenchidos. Com base na minha analise do template em branco &mdash; que tem 9 secoes e gera aproximadamente 570 variaveis &mdash; estimo entre 4 e 8 semanas de trabalho efetivo, usando ferramentas de IA para acelerar a extracao. Mas preciso ver 3 a 5 questionarios reais para confirmar. Posso enviar uma proposta formal em 48 horas apos receber as amostras."</em></p>
+    </div>
+    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Se pressionada: "Um range realista seria 15-25 dias uteis com ferramentas de IA, mas o numero exato depende da variabilidade dos dados."</em></p>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--danger);">"Como voce pretende extrair os dados dos Word?"</h3>
+    <p><strong>Como responder:</strong> Apresentar como processo, nao como tecnologia:</p>
+    <div style="background:#f7fafc; border-left:3px solid var(--accent); padding:0.8rem; margin-top:0.5rem;">
+      <p><em>"Minha abordagem e semi-automatizada com validacao humana. Uso ferramentas de IA para ler e interpretar cada questionario, extraindo respostas para um formato estruturado. Cada extracao passa por validacao &mdash; verifico amostras contra o original para garantir acuracia. O output final e um Excel limpo, compativel com STATA, com codebook documentado."</em></p>
+    </div>
+    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Se perguntarem sobre Python: "Uso Python para a parte estrutural (ler tabelas do Word) e IA para a parte interpretativa (entender respostas ambiguas). Os dois se complementam." Se perguntarem sobre risco de IA: "Toda extracao automatizada passa por QA humano. A IA acelera, nao substitui a validacao."</em></p>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--danger);">"Voce conhece o nosso trabalho com ALMPs?"</h3>
+    <p><strong>Como responder:</strong></p>
+    <div style="background:#f7fafc; border-left:3px solid var(--accent); padding:0.8rem; margin-top:0.5rem;">
+      <p><em>"Sim, conheco o projeto 'What Works' liderado pelo EMPLAB e pelo Research Department, que produziu o Compendio de ALMPs para America Latina e Caribe. Entendo que este projeto pode ser parte da expansao global dessa iniciativa. Tambem estou familiarizada com a taxonomia OECD de 9 categorias para Labour Market Programmes, que e o padrao internacional de referencia. Seria util entender se voces pretendem que o dataset seja comparavel com a estrutura OECD/Eurostat."</em></p>
+    </div>
+    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Isso demonstra conhecimento profundo sem parecer que esta "recitando". Se nao souber algo, diga: "Nao conheco esse aspecto especifico &mdash; pode me explicar para que eu incorpore na proposta?"</em></p>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--danger);">"Como voce garante a qualidade dos dados?"</h3>
+    <p><strong>Como responder:</strong></p>
+    <div style="background:#f7fafc; border-left:3px solid var(--accent); padding:0.8rem; margin-top:0.5rem;">
+      <p><em>"Meu processo de QA tem tres camadas: (1) Validacao automatica &mdash; scripts verificam completude, tipos de dados, e consistencia interna (por exemplo, se 'Yes' esta marcado mas o campo condicional esta vazio). (2) Spot-check humano &mdash; verifico pelo menos 15-20% dos questionarios campo a campo contra o documento original. (3) Log de decisoes &mdash; documento todas as decisoes tomadas sobre dados ambiguos, para que a equipe ILO possa revisar e contestar se necessario."</em></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--danger);">"Voce pode fazer isso em [prazo muito curto]?"</h3>
+    <p><strong>Como responder:</strong> Nao diga "nao". Redirecione para escopo:</p>
+    <div style="background:#f7fafc; border-left:3px solid var(--accent); padding:0.8rem; margin-top:0.5rem;">
+      <p><em>"Posso trabalhar dentro desse prazo se ajustarmos o escopo. Por exemplo: entregar o pipeline funcional e os primeiros 30 questionarios no prazo, com os restantes 70 numa segunda fase. Ou reduzir as variaveis extraidas para as mais criticas (digamos, 200 das 570) na primeira entrega. O que preferirem em termos de prioridade: completude ou velocidade?"</em></p>
+    </div>
+    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Isso mostra flexibilidade sem comprometer qualidade. Nunca prometa algo que nao pode entregar.</em></p>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--danger);">"Que deliverables voce entregaria?"</h3>
+    <p><strong>Como responder:</strong></p>
+    <div style="background:#f7fafc; border-left:3px solid var(--accent); padding:0.8rem; margin-top:0.5rem;">
+      <p><em>"Proponho entregar em fases:<br>
+      <strong>Fase 1 (inception):</strong> Relatorio de metodologia apos analisar os questionarios reais &mdash; confirma variaveis, abordagem tecnica, e cronograma detalhado.<br>
+      <strong>Fase 2 (piloto):</strong> Dataset com 10 questionarios extraidos e validados + codebook verificado. Ponto de go/no-go.<br>
+      <strong>Fase 3 (producao):</strong> Dataset completo com ~100 questionarios, codebook final, e .do file STATA para importacao.<br>
+      <strong>Fase 4 (entrega):</strong> Documentacao metodologica, log de decisoes, e sessao de handoff."</em></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--danger);">"Voce ja trabalhou com organizacoes do sistema ONU?"</h3>
+    <p><strong>Se sim:</strong> Mencione a experiencia e os processos que conhece (SSA, ToR, inception report, pagamento em tranches).</p>
+    <p><strong>Se nao:</strong> Nao minta. Redirecione:</p>
+    <div style="background:#f7fafc; border-left:3px solid var(--accent); padding:0.8rem; margin-top:0.5rem;">
+      <p><em>"Nao trabalhei diretamente com o sistema ONU antes, mas estou familiarizada com os processos de consultoria internacional &mdash; Terms of Reference, inception reports, entrega em fases com milestones. Minha prioridade e entregar um dataset robusto e bem documentado, independente do formato contratual."</em></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--danger);">"O que acontece se os questionarios forem muito inconsistentes?"</h3>
+    <p><strong>Como responder:</strong> Mostre que ja pensou nisso:</p>
+    <div style="background:#f7fafc; border-left:3px solid var(--accent); padding:0.8rem; margin-top:0.5rem;">
+      <p><em>"Ja antecipo isso &mdash; com ~100 entrevistadores de paises diferentes, haverá variacao. Minha abordagem inclui um 'circuit breaker': apos processar os primeiros 20 questionarios, calculo a taxa de intervencao manual por questionario. Se for acima de 30 minutos por questionario, reavaliamos: pode ser mais eficiente ajustar a estrategia do que insistir na automacao. Por isso a entrega em fases com go/no-go e essencial."</em></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--danger);">"Podemos ver uma amostra do seu trabalho ou fazer um teste?"</h3>
+    <p><strong>Como responder:</strong> Aceite imediatamente &mdash; isso joga a seu favor:</p>
+    <div style="background:#f7fafc; border-left:3px solid var(--accent); padding:0.8rem; margin-top:0.5rem;">
+      <p><em>"Com certeza. Me enviem 3 questionarios reais preenchidos e eu processo 1 deles end-to-end como prova de conceito &mdash; com extracao, codebook parcial, e o output em Excel. Isso levaria 1-2 dias e nos da a base para calibrar a proposta final. Posso fazer isso antes de formalizar o contrato."</em></p>
+    </div>
+    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Isso e estrategico: (a) demonstra confianca, (b) forca a ILO a enviar dados reais, (c) voce ve a complexidade real antes de se comprometer.</em></p>
   </div>
 </div>
 
