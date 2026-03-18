@@ -562,6 +562,26 @@
       <div class="question-item"><span class="question-num">18.</span><span>Existe deadline externo rigido (publicacao, conferencia)?</span></div>
     </div>
   </div>
+
+  <div style="margin-bottom:1.5rem;">
+    <div class="question-category">Sobre Compliance e Logistica (criticas!)</div>
+    <div class="question-list">
+      <div class="question-item"><span class="question-num">19.</span><span><strong>Ha restricoes sobre onde os dados podem ser processados? Posso usar APIs de IA externas (Claude, OpenAI)?</strong> <em>(Pode eliminar a abordagem recomendada se dados forem sensiveis.)</em></span></div>
+      <div class="question-item"><span class="question-num">20.</span><span>Qual e o processo de pagamento? Ha adiantamento? Quanto tempo apos a entrega?</span></div>
+      <div class="question-item"><span class="question-num">21.</span><span>Quantas pessoas ja estao alocadas do lado da ILO? Ha research assistant disponivel?</span></div>
+      <div class="question-item"><span class="question-num">22.</span><span><strong>Existe um dataset anterior (Compendium LAC) que possa servir como referencia do formato esperado?</strong></span></div>
+      <div class="question-item"><span class="question-num">23.</span><span>Quem e o usuario final do dataset? Economista ILO, pesquisador externo, policymaker?</span></div>
+      <div class="question-item"><span class="question-num">24.</span><span>O contrato e como individual consultant (SSA) ou via empresa?</span></div>
+      <div class="question-item"><span class="question-num">25.</span><span>Este dataset e parte da expansao global do projeto "What Works", ou e iniciativa separada?</span></div>
+      <div class="question-item"><span class="question-num">26.</span><span>O output precisa seguir SDMX Data Structure Definitions ou e dataset flat?</span></div>
+    </div>
+  </div>
+
+  <div class="card" style="background:#fff5f5; border-color:var(--danger);">
+    <h3 style="color:var(--danger);">Recomendacao Estrategica para a Reuniao</h3>
+    <p><strong>NAO ir com preco definido.</strong> Ir com metodologia, perguntas, e compromisso de enviar proposta formal em 48h apos receber os questionarios reais. Dar preco sem ver dados reais e assumir risco de graca.</p>
+    <p style="margin-top:0.5rem;">Na reuniao, usar ranges arredondados ("4 a 8 semanas dependendo da qualidade dos dados") em vez de numeros precisos. Apresentar abordagem como condicional: "Tenho uma estrategia tecnica em mente, mas preciso ver os questionarios reais para confirmar."</p>
+  </div>
 </div>
 
 <!-- ==================== DEAL-BREAKERS ==================== -->
@@ -576,6 +596,7 @@
       <li>Prazo inferior a <strong>6 semanas</strong> para uma pessoa</li>
       <li>Questionarios em <strong>multiplos idiomas</strong> sem traducao prevista</li>
       <li>Parte dos questionarios sao <strong>escaneados/PDFs de papel</strong> (OCR = projeto diferente)</li>
+      <li><strong>Restricoes de compliance proibem uso de IA externa</strong> e nao ha alternativa on-premises viavel</li>
     </ul>
   </div>
 
@@ -645,6 +666,12 @@
       <tr><td>Value labels</td><td>Mapeamento numero &rarr; texto (1=Yes, 2=No)</td><td>Essencial para analise no STATA</td></tr>
       <tr><td>Semi-automated extraction</td><td>Script extrai + humano valida</td><td>Abordagem recomendada para este projeto</td></tr>
       <tr><td>Edge case</td><td>Caso raro/inesperado que quebra a automacao</td><td>Principal fonte de atraso no projeto</td></tr>
+      <tr><td>SSA</td><td>Special Service Agreement &mdash; contrato padrao da ILO para consultores externos</td><td>Saber o tipo de contrato demonstra experiencia com ONU</td></tr>
+      <tr><td>ToR</td><td>Terms of Reference &mdash; documento que define escopo da consultoria</td><td>Pedir o ToR na reuniao e padrao</td></tr>
+      <tr><td>Inception report</td><td>Primeiro deliverable: consultor confirma metodologia apos analisar os dados</td><td>Incluir no cronograma como entrega inicial</td></tr>
+      <tr><td>.dta / .do file</td><td>Formato nativo STATA / script STATA para replicacao</td><td>Possivel deliverable adicional alem do .xlsx</td></tr>
+      <tr><td>Harmonization</td><td>Padronizar dados de multiplas fontes/paises</td><td>Se a ILO pedir, o escopo e MUITO maior que extracao</td></tr>
+      <tr><td>SDMX</td><td>Standard para troca de dados estatisticos (usado pela ILO)</td><td>Se pedirem compliance SDMX, escopo muda significativamente</td></tr>
     </table>
   </div>
 
