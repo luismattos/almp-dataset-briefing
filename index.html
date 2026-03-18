@@ -143,7 +143,8 @@
 </header>
 
 <div class="tabs">
-  <button class="tab active" role="tab" aria-selected="true" onclick="showTab('overview',this)">Panorama</button>
+  <button class="tab active" role="tab" aria-selected="true" onclick="showTab('cheatsheet',this)" style="background:var(--danger);color:white;font-weight:700;">CHEAT SHEET</button>
+  <button class="tab" role="tab" aria-selected="false" onclick="showTab('overview',this)">Panorama</button>
   <button class="tab" role="tab" aria-selected="false" onclick="showTab('approaches',this)">Abordagens</button>
   <button class="tab" role="tab" aria-selected="false" onclick="showTab('technical',this)">Achados T&eacute;cnicos</button>
   <button class="tab" role="tab" aria-selected="false" onclick="showTab('estimates',this)">Estimativas</button>
@@ -154,8 +155,81 @@
   <button class="tab" role="tab" aria-selected="false" onclick="showTab('glossary',this)">Gloss&aacute;rio</button>
 </div>
 
+<!-- ==================== CHEAT SHEET ==================== -->
+<div id="cheatsheet" class="panel active">
+  <h2 style="margin-bottom:1rem; color:var(--danger);">CHEAT SHEET &mdash; Cola Rapida para a Reuniao</h2>
+
+  <div class="card" style="background:#fff5f5; border:2px solid var(--danger); font-size:1.05rem;">
+    <h3 style="color:var(--danger);">O PROJETO EM 1 FRASE</h3>
+    <p>Transformar ~100 questionarios Word preenchidos sobre programas de emprego (ALMPs) num dataset Excel compativel com STATA. ~570 variaveis, 9 secoes.</p>
+  </div>
+
+  <div class="card" style="background:#f0fff4; border:2px solid var(--success);">
+    <h3 style="color:var(--success);">PECA NA REUNIAO</h3>
+    <ul style="padding-left:1.2rem; line-height:2.2; font-size:1rem;">
+      <li><strong>3-5 questionarios REAIS</strong> preenchidos (nao so o template)</li>
+      <li><strong>Codebook oficial</strong> (se existir)</li>
+      <li><strong>Confirmacao de compliance</strong> &mdash; posso usar IA externa (Claude)?</li>
+      <li><strong>Referencia do Compendium LAC</strong> anterior (formato esperado)</li>
+      <li><strong>ToR</strong> (Terms of Reference) se ja tiver</li>
+    </ul>
+  </div>
+
+  <div class="card" style="background:#ebf8ff; border:2px solid var(--accent);">
+    <h3 style="color:var(--accent);">ESTIMATIVA (quando perguntarem)</h3>
+    <p style="font-size:1.1rem;"><strong>"3 a 5 semanas com ferramentas de IA, dependendo da qualidade dos dados."</strong></p>
+    <p style="margin-top:0.5rem;">Se pressionarem: "10-20 dias uteis. Me enviem 3 questionarios reais e em 48h mando proposta calibrada."</p>
+    <p style="margin-top:0.5rem; color:var(--danger);"><strong>NAO dar preco fechado sem ver dados reais.</strong></p>
+  </div>
+
+  <div class="card" style="background:#fffff0; border:2px solid #ecc94b;">
+    <h3 style="color:#975a16;">COMO VOCE FAZ (quando perguntarem)</h3>
+    <p style="font-size:1rem;">"Semi-automatizado com IA + validacao humana. A IA le e interpreta cada questionario, eu valido e documento. Output: Excel limpo + codebook + .do file STATA."</p>
+    <p style="margin-top:0.5rem;">Se aprofundarem: "Python extrai a estrutura, IA interpreta respostas ambiguas. Tudo passa por QA humano."</p>
+  </div>
+
+  <div class="card">
+    <h3>OFERECA PROATIVAMENTE</h3>
+    <div style="background:#f0fff4; border-left:4px solid var(--success); padding:1rem; font-size:1.05rem;">
+      <em>"Me enviem 3 questionarios reais e eu processo 1 end-to-end como piloto. Leva 1 dia. Dai calibro a proposta com precisao."</em>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>ENTREGA EM FASES (se perguntarem deliverables)</h3>
+    <table style="font-size:0.95rem;">
+      <tr><td style="width:30%;"><strong>Fase 1</strong> Inception</td><td>Relatorio de metodologia apos ver dados reais</td></tr>
+      <tr><td><strong>Fase 2</strong> Piloto</td><td>10 questionarios extraidos + codebook. Go/no-go.</td></tr>
+      <tr><td><strong>Fase 3</strong> Producao</td><td>Dataset completo (~100), codebook final, .do file</td></tr>
+      <tr><td><strong>Fase 4</strong> Handoff</td><td>Documentacao, log de decisoes, sessao de entrega</td></tr>
+    </table>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--danger);">
+    <h3>NAO FAZER</h3>
+    <ul style="padding-left:1.2rem; line-height:2; color:var(--danger);">
+      <li>Dar preco fechado sem ver dados reais</li>
+      <li>Prometer 100% automacao</li>
+      <li>Aceitar prazo < 3 semanas sem negociar escopo</li>
+      <li>Citar numeros muito precisos ("26.2 dias") &mdash; use ranges</li>
+    </ul>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--accent);">
+    <h3>FRASES-CHAVE (para soar profissional)</h3>
+    <ul style="padding-left:1.2rem; line-height:2.2;">
+      <li>"Ja analisei a estrutura do template &mdash; 9 secoes, ~570 variaveis, 478 checkboxes."</li>
+      <li>"Isso e coordenado pelo EMPLAB ou pelo Research Department?"</li>
+      <li>"O dataset precisa ser comparavel com a taxonomia OECD de 9 categorias?"</li>
+      <li>"Sugiro entrega em fases com go/no-go apos o piloto."</li>
+      <li>"Com IA, o gargalo nao e extrair &mdash; e validar e tratar edge cases."</li>
+      <li>"Para dados ambiguos, documento tudo e a equipe ILO arbitra em batch."</li>
+    </ul>
+  </div>
+</div>
+
 <!-- ==================== PANORAMA ==================== -->
-<div id="overview" class="panel active">
+<div id="overview" class="panel">
   <h2 style="margin-bottom:1rem; color:var(--primary);">Executive Summary</h2>
 
   <div class="card" style="background: #ebf8ff; border-color: var(--accent);">
