@@ -149,7 +149,7 @@
   <button class="tab" role="tab" aria-selected="false" onclick="showTab('estimates',this)">Estimativas</button>
   <button class="tab" role="tab" aria-selected="false" onclick="showTab('risks',this)">Riscos</button>
   <button class="tab" role="tab" aria-selected="false" onclick="showTab('questions',this)">Perguntas p/ ILO</button>
-  <button class="tab" role="tab" aria-selected="false" onclick="showTab('dealbreakers',this)">Deal-Breakers</button>
+  <button class="tab" role="tab" aria-selected="false" onclick="showTab('dealbreakers',this)">Limites &amp; Negociacao</button>
   <button class="tab" role="tab" aria-selected="false" onclick="showTab('faq',this)">FAQ Reverso</button>
   <button class="tab" role="tab" aria-selected="false" onclick="showTab('glossary',this)">Gloss&aacute;rio</button>
 </div>
@@ -160,7 +160,7 @@
 
   <div class="card" style="background: #ebf8ff; border-color: var(--accent);">
     <p><strong>O projeto:</strong> Transformar ~100 questionarios Word (.docx) preenchidos em entrevistas sobre programas de mercado de trabalho (ALMPs) num dataset Excel compativel com STATA.</p>
-    <p style="margin-top:0.5rem;"><strong>O desafio central:</strong> Os questionarios sao semi-estruturados com 573 variaveis, 478 checkboxes, e formatos mistos de resposta. A complexidade real depende de como os ~100 entrevistadores preencheram &mdash; e ainda nao temos amostras reais.</p>
+    <p style="margin-top:0.5rem;"><strong>O desafio central:</strong> Os questionarios sao semi-estruturados com 573 variaveis, 478 checkboxes, e formatos mistos de resposta. A complexidade real depende de como os ~100 entrevistadores preencheram &mdash; e ainda nao temos amostras reais. Com ferramentas de IA, a extracao em si e rapida; o gargalo e validacao e tratamento de edge cases.</p>
   </div>
 
   <div class="metric-grid">
@@ -185,8 +185,8 @@
       <div class="label">Questionarios a Processar</div>
     </div>
     <div class="metric">
-      <div class="value">26d</div>
-      <div class="label">Estimativa (caso esperado)</div>
+      <div class="value">16d</div>
+      <div class="label">Estimativa (caso esperado, c/ IA)</div>
     </div>
   </div>
 
@@ -239,11 +239,11 @@
     <h3 style="color:var(--success);">RECOMENDADA: Python + IA Hibrido</h3>
     <p><strong>Como funciona:</strong> Python (python-docx) extrai a estrutura das tabelas de forma deterministica. IA (Claude) interpreta o conteudo das celulas de resposta &mdash; especialmente campos ambiguos, multi-selects, e condicionais.</p>
     <table style="margin-top:0.8rem;">
-      <tr><td><strong>Esforco</strong></td><td>7-12 dias (script) + QA</td></tr>
+      <tr><td><strong>Esforco</strong></td><td>4-7 dias (extracao) + validacao</td></tr>
       <tr><td><strong>Risco tecnico</strong></td><td><span class="badge badge-medium">Medio-Baixo</span></td></tr>
       <tr><td><strong>Qualidade</strong></td><td><span class="badge badge-ok">Alta</span> (combina precisao do script com flexibilidade da IA)</td></tr>
       <tr><td><strong>Custo API</strong></td><td>$15-40 (tokens Claude)</td></tr>
-      <tr><td><strong>Por que:</strong></td><td>Python garante extracao <em>deterministica</em> da estrutura. IA resolve o problema mais dificil: <em>interpretar</em> respostas ambiguas. Reduz custo de tokens (envia so tabela, nao doc inteiro).</td></tr>
+      <tr><td><strong>Por que:</strong></td><td>Python garante extracao <em>deterministica</em> da estrutura. IA resolve o problema mais dificil: <em>interpretar</em> respostas ambiguas. Reduz custo de tokens (envia so tabela, nao doc inteiro). Com dominio de IA, o gargalo real e validacao, nao construcao.</td></tr>
     </table>
   </div>
 
@@ -251,7 +251,7 @@
     <h3>Opcao B: IA-Assisted Puro (Claude/GPT le cada .docx)</h3>
     <p>Cada .docx convertido para texto e enviado a um LLM com schema JSON. O LLM retorna dados estruturados.</p>
     <table style="margin-top:0.8rem;">
-      <tr><td><strong>Esforco</strong></td><td>8-12 dias</td></tr>
+      <tr><td><strong>Esforco</strong></td><td>5-8 dias (extracao, c/ IA)</td></tr>
       <tr><td><strong>Risco</strong></td><td><span class="badge badge-medium">Medio</span> (alucinacao possivel)</td></tr>
       <tr><td><strong>Qualidade</strong></td><td>Media-Alta (~95% consistencia)</td></tr>
       <tr><td><strong>Custo API</strong></td><td>$30-80</td></tr>
@@ -263,7 +263,7 @@
     <h3>Opcao C: Full Python (python-docx + pandas)</h3>
     <p>Script Python puro que parseia tabelas, detecta checkboxes, mapeia variaveis.</p>
     <table style="margin-top:0.8rem;">
-      <tr><td><strong>Esforco</strong></td><td>12-18 dias</td></tr>
+      <tr><td><strong>Esforco</strong></td><td>8-12 dias (IA ajuda a escrever o script, mas debug manual)</td></tr>
       <tr><td><strong>Risco</strong></td><td><span class="badge badge-high">Medio-Alto</span> (edge cases)</td></tr>
       <tr><td><strong>Qualidade</strong></td><td><span class="badge badge-ok">Alta</span> (deterministico)</td></tr>
       <tr><td><strong>Custo</strong></td><td>$0</td></tr>
@@ -287,7 +287,7 @@
     <h3>Opcao E: n8n Workflow Automation</h3>
     <p>Workflow visual: le .docx &rarr; converte texto &rarr; LLM node &rarr; JSON &rarr; Excel.</p>
     <table style="margin-top:0.8rem;">
-      <tr><td><strong>Esforco</strong></td><td>10-15 dias</td></tr>
+      <tr><td><strong>Esforco</strong></td><td>6-10 dias (c/ IA para configurar)</td></tr>
       <tr><td><strong>Risco</strong></td><td><span class="badge badge-medium">Medio-Alto</span></td></tr>
       <tr><td><strong>Qualidade</strong></td><td>Media-Alta</td></tr>
       <tr><td><strong>Custo API</strong></td><td>$15-40</td></tr>
@@ -309,15 +309,15 @@
   <div class="card" style="background:#fffff0; border-color:#ecc94b;">
     <h3>Tabela Comparativa Resumida</h3>
     <table>
-      <tr><th>Abordagem</th><th>Dias</th><th>Risco</th><th>Qualidade</th><th>Custo Extra</th><th>Python?</th></tr>
-      <tr style="background:#f0fff4;"><td><strong>Hibrido (recomendado)</strong></td><td><strong>7-12</strong></td><td>Medio-Baixo</td><td>Alta</td><td>$15-40</td><td>Basico</td></tr>
-      <tr><td>IA Puro</td><td>8-12</td><td>Medio</td><td>Media-Alta</td><td>$30-80</td><td>Nao</td></tr>
-      <tr><td>Full Python</td><td>12-18</td><td>Medio-Alto</td><td>Alta</td><td>$0</td><td>Intermediario</td></tr>
+      <tr><th>Abordagem</th><th>Dias (c/ IA)</th><th>Risco</th><th>Qualidade</th><th>Custo Extra</th><th>Python?</th></tr>
+      <tr style="background:#f0fff4;"><td><strong>Hibrido (recomendado)</strong></td><td><strong>4-7</strong></td><td>Medio-Baixo</td><td>Alta</td><td>$15-40</td><td>Basico</td></tr>
+      <tr><td>IA Puro</td><td>5-8</td><td>Medio</td><td>Media-Alta</td><td>$30-80</td><td>Nao</td></tr>
+      <tr><td>Full Python</td><td>8-12</td><td>Medio-Alto</td><td>Alta</td><td>$0</td><td>Intermediario</td></tr>
       <tr><td>Qualtrics</td><td>15-25</td><td>Baixo</td><td>Alta</td><td>$0-500</td><td>Nao</td></tr>
-      <tr><td>n8n</td><td>10-15</td><td>Medio-Alto</td><td>Media-Alta</td><td>$15-40</td><td>Nao</td></tr>
+      <tr><td>n8n</td><td>6-10</td><td>Medio-Alto</td><td>Media-Alta</td><td>$15-40</td><td>Nao</td></tr>
       <tr><td>Manual</td><td>40-60</td><td>Alto</td><td>Variavel</td><td>$0</td><td>Nao</td></tr>
     </table>
-    <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--muted);"><em>Nota: "Dias" refere-se apenas a fase de extracao. O projeto total (discovery + codebook + testing + QA + entrega) adiciona ~14-20 dias dependendo do cenario.</em></p>
+    <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--muted);"><em>Nota: "Dias" refere-se apenas a fase de extracao, assumindo uso intensivo de IA. O projeto total (discovery + codebook + testing + QA + entrega) adiciona ~6-10 dias dependendo do cenario. Abordagens sem IA (Qualtrics, Manual) mantem estimativas originais.</em></p>
   </div>
 </div>
 
@@ -378,66 +378,73 @@
 <div id="estimates" class="panel">
   <h2 style="margin-bottom:1rem; color:var(--primary);">Estimativas de Esforco</h2>
 
+  <div class="card" style="background:#ebf8ff; border-color:var(--accent); margin-bottom:1.5rem;">
+    <h3 style="color:var(--accent);">Nota sobre uso de IA nas estimativas</h3>
+    <p>Estas estimativas assumem uso intensivo de ferramentas de IA (Claude) em todas as fases. Com IA, o gargalo <strong>nao e fazer</strong> &mdash; e <strong>validar</strong>. A IA extrai dados de cada .docx em segundos, gera codebook automaticamente, e faz QA comparando output vs. source. O tempo humano e majoritariamente revisao, decisoes sobre ambiguidades, e comunicacao com a ILO.</p>
+  </div>
+
   <div class="scenario-grid" style="margin-bottom:1.5rem;">
     <div class="scenario best">
       <div class="label">BEST CASE</div>
-      <div class="days" style="color:#276749;">17d</div>
-      <div class="label">~3.5 semanas</div>
+      <div class="days" style="color:#276749;">10d</div>
+      <div class="label">~2 semanas</div>
       <p style="font-size:0.8rem; margin-top:0.5rem; color:var(--muted);">Questionarios limpos, formato consistente, poucos edge cases</p>
     </div>
     <div class="scenario expected">
       <div class="label">ESPERADO</div>
-      <div class="days" style="color:#975a16;">26d</div>
-      <div class="label">~5.5 semanas</div>
+      <div class="days" style="color:#975a16;">16d</div>
+      <div class="label">~3.5 semanas</div>
       <p style="font-size:0.8rem; margin-top:0.5rem; color:var(--muted);">60-70% seguem template, 20-30% com variacoes menores, 5-10% problematicos</p>
     </div>
     <div class="scenario worst">
       <div class="label">WORST CASE</div>
-      <div class="days" style="color:#c53030;">40d</div>
-      <div class="label">~8 semanas</div>
+      <div class="days" style="color:#c53030;">25d</div>
+      <div class="label">~5 semanas</div>
       <p style="font-size:0.8rem; margin-top:0.5rem; color:var(--muted);"><50% seguem template, multiplas versoes, formatos inconsistentes</p>
     </div>
   </div>
 
   <div class="card">
-    <h3>Breakdown por Fase (dias uteis de 8h)</h3>
+    <h3>Breakdown por Fase (dias uteis de 8h, com uso de IA)</h3>
     <table>
-      <tr><th>Fase</th><th>Best</th><th>Esperado</th><th>Worst</th><th>Notas</th></tr>
-      <tr><td>0. Due Diligence (pre-contrato)</td><td>1.0</td><td>1.5</td><td>2.1</td><td>Obter e analisar questionarios reais</td></tr>
-      <tr><td>1. Discovery &amp; Scoping</td><td>1.8</td><td>2.5</td><td>3.4</td><td>Entender dados reais, documentar estrategia</td></tr>
-      <tr><td>2. Codebook &amp; Template</td><td>2.5</td><td>3.4</td><td>4.8</td><td>Verificar/corrigir codebook, criar template Excel</td></tr>
-      <tr style="background:#fff5f5;"><td><strong>3. Extracao (maior risco)</strong></td><td><strong>4.4</strong></td><td><strong>6.6</strong></td><td><strong>10.1</strong></td><td>Construir pipeline de extracao</td></tr>
-      <tr style="background:#fff5f5;"><td><strong>4. Testing &amp; Iteracao</strong></td><td><strong>3.1</strong></td><td><strong>5.5</strong></td><td><strong>9.3</strong></td><td>Piloto, escalar, iterar</td></tr>
-      <tr><td>5. QA &amp; Revisao Manual</td><td>2.5</td><td>4.1</td><td>6.5</td><td>Spot-check, correcoes, flags</td></tr>
-      <tr><td>6. STATA &amp; Entrega</td><td>2.0</td><td>2.6</td><td>3.6</td><td>Validacao STATA, .do file, docs</td></tr>
-      <tr style="font-weight:700; background:#edf2f7;"><td>TOTAL</td><td>17.3d</td><td>26.2d</td><td>39.8d</td><td></td></tr>
+      <tr><th>Fase</th><th>Best</th><th>Esperado</th><th>Worst</th><th>Notas</th><th>Efeito da IA</th></tr>
+      <tr><td>0. Due Diligence (pre-contrato)</td><td>0.5</td><td>1.0</td><td>1.5</td><td>Obter e analisar questionarios reais</td><td>IA analisa estrutura XML em minutos</td></tr>
+      <tr><td>1. Discovery &amp; Scoping</td><td>1.0</td><td>1.5</td><td>2.0</td><td>Entender dados reais, documentar estrategia</td><td>IA mapeia variacoes entre questionarios automaticamente</td></tr>
+      <tr><td>2. Codebook &amp; Template</td><td>1.0</td><td>1.5</td><td>2.5</td><td>Verificar/corrigir codebook, criar template Excel</td><td>IA gera codebook a partir do template; humano valida</td></tr>
+      <tr style="background:#fff5f5;"><td><strong>3. Extracao (maior risco)</strong></td><td><strong>2.5</strong></td><td><strong>4.0</strong></td><td><strong>7.0</strong></td><td>Construir pipeline de extracao</td><td>IA extrai cada docx em segundos; gargalo = calibrar prompt + validar edge cases</td></tr>
+      <tr style="background:#fff5f5;"><td><strong>4. Testing &amp; Iteracao</strong></td><td><strong>2.0</strong></td><td><strong>3.5</strong></td><td><strong>5.5</strong></td><td>Piloto, escalar, iterar</td><td>IA processa batch de 100 em &lt;1h; tempo e p/ revisar exceptions</td></tr>
+      <tr><td>5. QA &amp; Revisao Manual</td><td>1.5</td><td>2.5</td><td>4.0</td><td>Spot-check, correcoes, flags</td><td>IA compara output vs source e flagga discrepancias; humano arbitra</td></tr>
+      <tr><td>6. STATA &amp; Entrega</td><td>1.5</td><td>2.0</td><td>2.5</td><td>Validacao STATA, .do file, docs</td><td>IA gera .do file e documentacao; humano testa no STATA</td></tr>
+      <tr style="font-weight:700; background:#edf2f7;"><td>TOTAL</td><td>10.0d</td><td>16.0d</td><td>25.0d</td><td></td><td></td></tr>
     </table>
+    <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--muted);"><em>Nota: Estimativas anteriores (17-40d) assumiam trabalho manual/semi-manual. Com IA, o tempo de "fazer" cai drasticamente &mdash; o que permanece e o tempo de "decidir" (ambiguidades, edge cases, validacao humana, comunicacao com ILO).</em></p>
   </div>
 
   <div class="card" style="background:#fffff0; border-color:#ecc94b;">
     <h3>Recomendacao de Proposta</h3>
-    <p><strong>Orcar pelo cenario esperado + 20% buffer = ~32 dias uteis.</strong></p>
-    <p style="margin-top:0.5rem;">Se os questionarios forem mais limpos que o esperado, entrega antecipada. Se piores, o buffer absorve parte.</p>
-    <p style="margin-top:0.5rem;"><strong>Estrutura sugerida:</strong> Contrato por fases com go/no-go apos piloto (Fase 4.2).</p>
+    <p><strong>Orcar pelo cenario esperado + 25% buffer = ~20 dias uteis (~4 semanas).</strong></p>
+    <p style="margin-top:0.5rem;">Se os questionarios forem mais limpos que o esperado, entrega antecipada (2-3 semanas). Se piores, o buffer absorve parte e o worst case ainda cabe em 5 semanas.</p>
+    <p style="margin-top:0.5rem;"><strong>Estrutura sugerida:</strong> Contrato por fases com go/no-go apos piloto (Fase 4). Como colaboradora recorrente, propor entrega em 3 marcos com check-in apos cada um.</p>
+    <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--muted);"><strong>Estrategia de pricing:</strong> Orcar pelos 20d mas nao comunicar a reducao por IA. O valor esta na entrega, nao nas horas. Se a ILO perguntar por que e mais rapido que o esperado, explicar que ferramentas de IA aceleram a extracao.</p>
   </div>
 
   <div class="card">
-    <h3>Onde o Tempo Vai (caso esperado)</h3>
+    <h3>Onde o Tempo Vai (caso esperado, com IA)</h3>
     <div style="margin:0.5rem 0;">
-      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>Extracao + Testing (Fases 3-4)</span><span><strong>12.1d</strong> (46%)</span></div>
-      <div class="progress-bar"><div class="progress-fill" style="width:46%; background:#e53e3e;">46%</div></div>
+      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>Extracao + Testing (Fases 3-4)</span><span><strong>7.5d</strong> (47%)</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:47%; background:#e53e3e;">47%</div></div>
     </div>
     <div style="margin:0.5rem 0;">
-      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>QA &amp; Revisao (Fase 5)</span><span><strong>4.1d</strong> (16%)</span></div>
+      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>QA &amp; Revisao (Fase 5)</span><span><strong>2.5d</strong> (16%)</span></div>
       <div class="progress-bar"><div class="progress-fill" style="width:16%; background:#ed8936;">16%</div></div>
     </div>
     <div style="margin:0.5rem 0;">
-      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>Codebook &amp; Template (Fase 2)</span><span><strong>3.4d</strong> (13%)</span></div>
-      <div class="progress-bar"><div class="progress-fill" style="width:13%; background:#ecc94b;">13%</div></div>
+      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>Codebook &amp; Template (Fase 2)</span><span><strong>1.5d</strong> (9%)</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:9%; background:#ecc94b;">9%</div></div>
     </div>
     <div style="margin:0.5rem 0;">
-      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>Restante (Fases 0,1,6)</span><span><strong>6.6d</strong> (25%)</span></div>
-      <div class="progress-bar"><div class="progress-fill" style="width:25%; background:#4299e1;">25%</div></div>
+      <div style="display:flex; justify-content:space-between; font-size:0.85rem;"><span>Restante (Fases 0,1,6)</span><span><strong>4.5d</strong> (28%)</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:28%; background:#4299e1;">28%</div></div>
     </div>
   </div>
 </div>
@@ -451,21 +458,21 @@
     <h3>1. Questionarios reais nao seguem o template</h3>
     <p>Respondentes modificaram formatacao, tabelas quebradas, celulas fundidas, texto fora das caixas, formatos inesperados.</p>
     <p><span class="badge badge-high">Probabilidade: ALTA</span> <span class="badge badge-high">Impacto: ALTO</span></p>
-    <p style="margin-top:0.5rem;"><strong>Mitigacao:</strong> Pedir 3-5 questionarios reais ANTES de assinar. Se o cliente recusar, nao aceitar.</p>
+    <p style="margin-top:0.5rem;"><strong>Mitigacao:</strong> Pedir 3-5 questionarios reais ANTES de fechar proposta. Oferecer processar 1 como piloto gratuito &mdash; isso alinha expectativas e mostra capacidade.</p>
   </div>
 
   <div class="card risk-high">
     <h3>2. Codebook AI-generated esta errado</h3>
     <p>Variaveis mal nomeadas, codificacoes inconsistentes, secoes faltando. Cliente rejeita primeira entrega.</p>
     <p><span class="badge badge-high">Probabilidade: ALTA</span> <span class="badge badge-high">Impacto: ALTO</span></p>
-    <p style="margin-top:0.5rem;"><strong>Mitigacao:</strong> Exigir codebook oficial da ILO ou incluir criacao/validacao no escopo (e no preco).</p>
+    <p style="margin-top:0.5rem;"><strong>Mitigacao:</strong> Perguntar se existe codebook oficial. Se nao, propor que a criacao/validacao do codebook seja fase separada com preco proprio. IA gera um draft rapidamente, mas a ILO precisa validar.</p>
   </div>
 
   <div class="card risk-high">
     <h3>3. Escopo flutuante &mdash; cliente espera mais que "um Excel"</h3>
     <p>Expectativa de limpeza de dados, harmonizacao, .dta STATA com labels, analises exploratorias, documentacao completa.</p>
     <p><span class="badge badge-high">Probabilidade: ALTA</span> <span class="badge badge-high">Impacto: ALTO</span></p>
-    <p style="margin-top:0.5rem;"><strong>Mitigacao:</strong> Lista exata de deliverables por escrito ANTES de assinar. Quantas rodadas de revisao.</p>
+    <p style="margin-top:0.5rem;"><strong>Mitigacao:</strong> Alinhar lista exata de deliverables por escrito na proposta. Definir quantas rodadas de revisao estao incluidas. Como colaboradora recorrente, voce pode dizer: "Nos projetos anteriores, isso funcionou bem quando definiamos X de saida."</p>
   </div>
 
   <div class="card risk-high">
@@ -486,14 +493,14 @@
     <summary>6. Problemas de qualidade dos dados culpam o executor</summary>
     <div><p>Dados de origem ruins (respostas incompletas, contraditorias). Sem criterio claro sobre tratamento.</p>
     <p><span class="badge badge-medium">Probabilidade: MEDIA</span> <span class="badge badge-high">Impacto: ALTO</span></p>
-    <p><strong>Mitigacao:</strong> Exigir protocolo de decisoes + log de todas decisoes tomadas.</p></div>
+    <p><strong>Mitigacao:</strong> Propor protocolo de decisoes na proposta + manter log de todas decisoes tomadas. Praticar: "Para dados ambiguos, sugiro que eu documente e a equipe ILO valide em batch."</p></div>
   </details>
 
   <details>
-    <summary>7. Dependencia de Python sem experiencia</summary>
-    <div><p>Bugs sutis (encoding, Unicode, tipos) consomem tempo desproporcional.</p>
-    <p><span class="badge badge-medium">Probabilidade: MEDIA</span> <span class="badge badge-medium">Impacto: MEDIO</span></p>
-    <p><strong>Mitigacao:</strong> Abordagem hibrida. Ou 1 dia de dev Python para montar pipeline base.</p></div>
+    <summary>7. Bugs sutis no pipeline (encoding, Unicode, tipos)</summary>
+    <div><p>Mesmo com IA gerando o codigo, bugs sutis (encoding, Unicode, tipos de dados) podem consumir tempo desproporcional no debugging.</p>
+    <p><span class="badge badge-low">Probabilidade: MEDIA-BAIXA</span> <span class="badge badge-medium">Impacto: MEDIO</span></p>
+    <p><strong>Mitigacao:</strong> IA (Claude) e muito eficaz para debugging de Python. Abordagem hibrida minimiza o risco. Se algo travar, IA diagnostica em minutos.</p></div>
   </details>
 
   <details>
@@ -526,7 +533,7 @@
   <div style="margin-bottom:1.5rem;">
     <div class="question-category">Sobre os Dados de Entrada</div>
     <div class="question-list">
-      <div class="question-item"><span class="question-num">1.</span><span><strong>Posso receber 3-5 questionarios REAIS preenchidos agora, antes de fechar escopo?</strong> <em>(Se nao, red flag critico.)</em></span></div>
+      <div class="question-item"><span class="question-num">1.</span><span><strong>Posso receber 3-5 questionarios REAIS preenchidos agora, antes de fechar escopo?</strong> <em>(Essencial para calibrar a proposta com precisao. Oferecer processar 1 como piloto.)</em></span></div>
       <div class="question-item"><span class="question-num">2.</span><span>Todos os ~100 questionarios sao .docx? Algum e .doc (antigo), PDF, ou escaneado?</span></div>
       <div class="question-item"><span class="question-num">3.</span><span>Todos usam exatamente a mesma versao do template? Houve versoes diferentes ao longo do tempo?</span></div>
       <div class="question-item"><span class="question-num">4.</span><span>Em que idiomas estao preenchidos? (So ingles? Alguns em frances, espanhol, arabe?)</span></div>
@@ -560,7 +567,7 @@
     <div class="question-category">Sobre o Contexto</div>
     <div class="question-list">
       <div class="question-item"><span class="question-num">16.</span><span>Para que sera usado o dataset? Publicacao? Pesquisa interna? (Muda o rigor exigido.)</span></div>
-      <div class="question-item"><span class="question-num">17.</span><span><strong>Alguem ja tentou fazer isso antes? Por que nao deu certo?</strong> <em>(Red flag se ja tentaram e falharam.)</em></span></div>
+      <div class="question-item"><span class="question-num">17.</span><span><strong>Alguem ja tentou fazer isso antes? Que licoes posso aproveitar?</strong> <em>(Saber o historico ajuda a evitar os mesmos problemas e calibrar expectativas.)</em></span></div>
       <div class="question-item"><span class="question-num">18.</span><span>Existe deadline externo rigido (publicacao, conferencia)?</span></div>
     </div>
   </div>
@@ -579,61 +586,66 @@
     </div>
   </div>
 
-  <div class="card" style="background:#fff5f5; border-color:var(--danger);">
-    <h3 style="color:var(--danger);">Recomendacao Estrategica para a Reuniao</h3>
-    <p><strong>NAO ir com preco definido.</strong> Ir com metodologia, perguntas, e compromisso de enviar proposta formal em 48h apos receber os questionarios reais. Dar preco sem ver dados reais e assumir risco de graca.</p>
-    <p style="margin-top:0.5rem;">Na reuniao, usar ranges arredondados ("4 a 8 semanas dependendo da qualidade dos dados") em vez de numeros precisos. Apresentar abordagem como condicional: "Tenho uma estrategia tecnica em mente, mas preciso ver os questionarios reais para confirmar."</p>
+  <div class="card" style="background:#ebf8ff; border-color:var(--accent);">
+    <h3 style="color:var(--accent);">Recomendacao Estrategica para a Reuniao</h3>
+    <p><strong>Ir com metodologia clara e range de preco, mas calibrar apos ver dados reais.</strong> Como colaboradora recorrente, voce pode ser mais direta que um newcomer &mdash; mas ainda assim nao fechar numero sem ver os questionarios.</p>
+    <p style="margin-top:0.5rem;">Na reuniao, usar ranges calibrados ("3 a 5 semanas com as ferramentas de IA que uso") e oferecer proativamente: <em>"Me enviem 3-5 questionarios e em 48h mando proposta formal com cronograma detalhado. Se quiserem, processo 1 como piloto junto."</em></p>
+    <p style="margin-top:0.5rem;">Tom geral: <strong>colaborativa e proativa</strong>, nao defensiva. Voce ja e parte do time &mdash; o objetivo e definir escopo e cronograma realista, nao "convencer" alguem.</p>
   </div>
 </div>
 
 <!-- ==================== DEAL-BREAKERS ==================== -->
 <div id="dealbreakers" class="panel">
-  <h2 style="margin-bottom:1rem; color:var(--primary);">Deal-Breakers &amp; Regras de Decisao</h2>
+  <h2 style="margin-bottom:1rem; color:var(--primary);">Limites de Escopo &amp; Regras de Negociacao</h2>
+  <p style="margin-bottom:1rem; color:var(--muted);">Como colaboradora recorrente da ILO, o objetivo nao e recusar &mdash; e negociar condicoes que permitam entregar com qualidade. Reputacao e o ativo principal.</p>
 
   <div class="card" style="background:#fff5f5; border: 2px solid var(--danger);">
-    <h3 style="color:var(--danger);">NAO aceitar se:</h3>
+    <h3 style="color:var(--danger);">Negociar ANTES de aceitar se:</h3>
+    <p style="margin-bottom:0.5rem; font-size:0.85rem; color:var(--muted);">Estes itens nao sao motivo para recusar, mas precisam ser resolvidos antes de comprometer prazo e preco. Levantar de forma colaborativa: "Para que eu consiga entregar com a qualidade que voces esperam, preciso de..."</p>
     <ul style="padding-left:1.2rem; line-height: 2;">
-      <li>O cliente <strong>recusa enviar questionarios reais</strong> antes da assinatura</li>
-      <li><strong>Nao existe codebook oficial</strong> e esperam que voce crie E valide (duplica/triplica escopo)</li>
-      <li>Prazo inferior a <strong>6 semanas</strong> para uma pessoa</li>
-      <li>Questionarios em <strong>multiplos idiomas</strong> sem traducao prevista</li>
-      <li>Parte dos questionarios sao <strong>escaneados/PDFs de papel</strong> (OCR = projeto diferente)</li>
-      <li><strong>Restricoes de compliance proibem uso de IA externa</strong> e nao ha alternativa on-premises viavel</li>
+      <li><strong>Sem acesso a questionarios reais</strong> antes da assinatura &rarr; Propor: "Posso comecar com um piloto remunerado de 2-3 dias assim que receber as amostras, e a proposta final vem depois"</li>
+      <li><strong>Nao existe codebook oficial</strong> e esperam que voce crie E valide &rarr; Propor: incluir criacao do codebook como fase separada com preco proprio</li>
+      <li>Prazo inferior a <strong>3 semanas uteis</strong> para uma pessoa com ferramentas de IA &rarr; Propor: escopo reduzido na primeira entrega (variaveis prioritarias ou batch parcial)</li>
+      <li>Questionarios em <strong>multiplos idiomas</strong> sem traducao prevista &rarr; Propor: IA pode processar ingles/frances/espanhol, mas confirmar idiomas e ajustar estimativa</li>
+      <li>Parte dos questionarios sao <strong>escaneados/PDFs de papel</strong> &rarr; Propor: separar em escopo A (docx) e escopo B (OCR) com cronogramas independentes</li>
+      <li><strong>Restricoes de compliance proibem uso de IA externa</strong> &rarr; Propor: processamento local com modelos open-source, com ajuste de prazo e custo</li>
     </ul>
   </div>
 
   <div class="card" style="background:#fffff0; border: 2px solid #ecc94b;">
-    <h3 style="color:#975a16;">Cautela extra se:</h3>
+    <h3 style="color:#975a16;">Pontos a esclarecer na conversa:</h3>
     <ul style="padding-left:1.2rem; line-height: 2;">
-      <li>Respostas vagas sobre escopo e deliverables</li>
-      <li>"A gente ve isso durante o projeto" como resposta a questoes criticas</li>
-      <li>Nao ha pessoa tecnica de contato na ILO para duvidas durante execucao</li>
-      <li>Os documentos preparatorios sao todos AI-generated (ninguem da ILO validou?)</li>
-      <li>Ja tentaram antes e falharam (por que desta vez seria diferente?)</li>
+      <li>Escopo e deliverables ainda vagos &rarr; pedir ToR detalhado ou alinhar por escrito apos reuniao</li>
+      <li>"A gente ve isso durante o projeto" como resposta a questoes criticas &rarr; pedir que pelo menos os criterios de aceite sejam definidos antes</li>
+      <li>Nao ha pessoa tecnica de contato na ILO para duvidas durante execucao &rarr; pedir pelo menos um ponto focal para decisoes sobre dados ambiguos</li>
+      <li>Os documentos preparatorios sao todos AI-generated &rarr; confirmar quem da ILO validou o conteudo tecnico</li>
+      <li>Ja tentaram antes e nao concluiram &rarr; entender o que aconteceu para calibrar melhor a proposta</li>
     </ul>
   </div>
 
   <div class="card" style="background:#f0fff4; border: 2px solid var(--success);">
-    <h3 style="color:var(--success);">Sinal verde se:</h3>
+    <h3 style="color:var(--success);">Condicoes ideais (aceitar com confianca):</h3>
     <ul style="padding-left:1.2rem; line-height: 2;">
-      <li>Fornecem 5+ questionarios reais e a maioria segue o template</li>
-      <li>Codebook oficial existe e esta alinhado com o template</li>
-      <li>Prazo de 8+ semanas com entrega em fases</li>
-      <li>Todos os questionarios sao .docx em ingles</li>
+      <li>Fornecem 3-5 questionarios reais e a maioria segue o template</li>
+      <li>Codebook oficial existe ou ILO valida o que voce produzir com IA</li>
+      <li>Prazo de 4+ semanas com entrega em fases</li>
+      <li>Todos os questionarios sao .docx (ingles, frances ou espanhol)</li>
       <li>Ponto de contato tecnico dedicado para duvidas</li>
+      <li>IA externa permitida ou processamento local viavel</li>
     </ul>
   </div>
 
   <div class="card">
-    <h3>Entrega Minima Viavel (se tudo der errado)</h3>
-    <p>Se o projeto descarrilar, o que preserva sua reputacao:</p>
+    <h3>Entrega Minima Viavel (contingencia)</h3>
+    <p>Se a complexidade dos dados for maior que o esperado, o que garante uma entrega profissional mesmo assim:</p>
     <ol style="padding-left:1.2rem; line-height: 2;">
-      <li><strong>Pipeline funcional para o "happy path"</strong> &mdash; funciona nos 40-60% limpos</li>
-      <li><strong>Dataset parcial + log de problemas</strong> &mdash; documentacao de por que os demais falharam</li>
-      <li><strong>Template validado</strong> &mdash; estrutura correta mesmo que dados incompletos</li>
-      <li><strong>Manual de procedimento</strong> &mdash; para outra pessoa completar manualmente</li>
-      <li><strong>Proposta de Fase 2</strong> &mdash; escopo do que falta, quanto tempo, quanto custa</li>
+      <li><strong>Pipeline funcional para o "happy path"</strong> &mdash; funciona nos 60-80% que seguem o template</li>
+      <li><strong>Dataset parcial + log de excecoes</strong> &mdash; documentacao clara de quais questionarios precisam de tratamento especial e por que</li>
+      <li><strong>Template e codebook validados</strong> &mdash; estrutura correta reutilizavel</li>
+      <li><strong>Manual de procedimento</strong> &mdash; para a equipe ILO completar os casos excepcionais</li>
+      <li><strong>Proposta de Fase 2</strong> &mdash; escopo, prazo e custo para concluir os casos restantes</li>
     </ol>
+    <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--muted);"><em>A ideia e: mesmo no pior cenario, a ILO recebe valor concreto e um caminho claro para completar o projeto. Isso protege a relacao de longo prazo.</em></p>
   </div>
 </div>
 
@@ -644,23 +656,24 @@
 
   <div class="card">
     <h3 style="color:var(--danger);">"Qual e a sua experiencia com este tipo de projeto?"</h3>
-    <p><strong>Como responder:</strong> Foque em competencias transferiveis, nao em projetos identicos. Destaque:</p>
+    <p><strong>Como responder:</strong> Voce ja e colaboradora recorrente da ILO &mdash; use isso. Conecte a experiencia existente com as competencias especificas deste projeto:</p>
     <ul style="padding-left:1.2rem; margin-top:0.5rem; line-height:1.8;">
+      <li>Experiencia direta com a ILO em projetos anteriores &mdash; conhece os processos, os prazos, e a cultura da organizacao</li>
       <li>Experiencia com STATA e manipulacao de datasets para analise de politicas publicas</li>
       <li>Familiaridade com questionarios estruturados e instrumentos de coleta de dados</li>
-      <li>Capacidade de usar ferramentas de IA (Claude, etc.) para automatizar extracao e validacao de dados semi-estruturados</li>
+      <li>Uso avancado de ferramentas de IA (Claude) para automatizar extracao e validacao &mdash; reduz significativamente o tempo de processamento</li>
       <li>Conhecimento do ecossistema ILO: ILOSTAT, classificacao OECD de ALMPs, padrao SDMX</li>
     </ul>
-    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Evite: dizer que nunca fez algo parecido. Redirecione para a metodologia que voce domina.</em></p>
+    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Posicione como continuidade natural: "Ja trabalhamos juntos em [projetos anteriores] e isso me da familiaridade com o que voces esperam em termos de qualidade e processo."</em></p>
   </div>
 
   <div class="card">
     <h3 style="color:var(--danger);">"Quanto tempo voce precisa e qual e o custo?"</h3>
-    <p><strong>Como responder:</strong> NAO dar numero fechado. Responder com condicional:</p>
+    <p><strong>Como responder:</strong> Dar range condicional, nao numero fechado. Mostrar que ja analisou o template:</p>
     <div style="background:#f7fafc; border-left:3px solid var(--accent); padding:0.8rem; margin-top:0.5rem;">
-      <p><em>"Isso depende fundamentalmente da qualidade e consistencia dos questionarios preenchidos. Com base na minha analise do template em branco &mdash; que tem 9 secoes e gera aproximadamente 570 variaveis &mdash; estimo entre 4 e 8 semanas de trabalho efetivo, usando ferramentas de IA para acelerar a extracao. Mas preciso ver 3 a 5 questionarios reais para confirmar. Posso enviar uma proposta formal em 48 horas apos receber as amostras."</em></p>
+      <p><em>"Ja analisei a estrutura do template &mdash; sao 9 secoes, ~570 variaveis, e 478 checkboxes. Usando ferramentas de IA que aceleram muito a extracao e validacao, estimo entre 3 e 5 semanas de trabalho efetivo. Mas o numero exato depende de como os questionarios foram preenchidos na pratica &mdash; se seguem o template ou se houve muita variacao. Me enviem 3-5 questionarios reais e em 48h mando a proposta calibrada."</em></p>
     </div>
-    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Se pressionada: "Um range realista seria 15-25 dias uteis com ferramentas de IA, mas o numero exato depende da variabilidade dos dados."</em></p>
+    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Se pressionada: "Com IA, o range realista e 10-20 dias uteis dependendo da qualidade dos dados. Se forem limpos, pode ser menos."</em></p>
   </div>
 
   <div class="card">
@@ -674,11 +687,11 @@
 
   <div class="card">
     <h3 style="color:var(--danger);">"Voce conhece o nosso trabalho com ALMPs?"</h3>
-    <p><strong>Como responder:</strong></p>
+    <p><strong>Como responder:</strong> Sim, e com naturalidade &mdash; voce ja e parte do ecossistema ILO:</p>
     <div style="background:#f7fafc; border-left:3px solid var(--accent); padding:0.8rem; margin-top:0.5rem;">
-      <p><em>"Sim, conheco o projeto 'What Works' liderado pelo EMPLAB e pelo Research Department, que produziu o Compendio de ALMPs para America Latina e Caribe. Entendo que este projeto pode ser parte da expansao global dessa iniciativa. Tambem estou familiarizada com a taxonomia OECD de 9 categorias para Labour Market Programmes, que e o padrao internacional de referencia. Seria util entender se voces pretendem que o dataset seja comparavel com a estrutura OECD/Eurostat."</em></p>
+      <p><em>"Sim, acompanho o trabalho do EMPLAB e do Research Department nessa area. Conheco o projeto 'What Works' e o Compendio de ALMPs para America Latina e Caribe. Entendo que este dataset pode ser parte da expansao global dessa iniciativa. Tambem estou familiarizada com a taxonomia OECD de 9 categorias. Uma duvida que tenho e se voces pretendem que o dataset seja comparavel com a estrutura OECD/Eurostat &mdash; isso influencia o desenho do codebook."</em></p>
     </div>
-    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Isso demonstra conhecimento profundo sem parecer que esta "recitando". Se nao souber algo, diga: "Nao conheco esse aspecto especifico &mdash; pode me explicar para que eu incorpore na proposta?"</em></p>
+    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Como colaboradora recorrente, nao precisa "provar" conhecimento &mdash; demonstre-o fazendo a pergunta certa. Se nao souber algo: "Nao conheco esse aspecto especifico deste projeto &mdash; pode me contextualizar?"</em></p>
   </div>
 
   <div class="card">
@@ -691,11 +704,11 @@
 
   <div class="card">
     <h3 style="color:var(--danger);">"Voce pode fazer isso em [prazo muito curto]?"</h3>
-    <p><strong>Como responder:</strong> Nao diga "nao". Redirecione para escopo:</p>
+    <p><strong>Como responder:</strong> Com IA, prazos mais curtos sao viaveis &mdash; mas seja honesta sobre limites. Redirecione para escopo se necessario:</p>
     <div style="background:#f7fafc; border-left:3px solid var(--accent); padding:0.8rem; margin-top:0.5rem;">
-      <p><em>"Posso trabalhar dentro desse prazo se ajustarmos o escopo. Por exemplo: entregar o pipeline funcional e os primeiros 30 questionarios no prazo, com os restantes 70 numa segunda fase. Ou reduzir as variaveis extraidas para as mais criticas (digamos, 200 das 570) na primeira entrega. O que preferirem em termos de prioridade: completude ou velocidade?"</em></p>
+      <p><em>"Uso ferramentas de IA que aceleram muito a extracao &mdash; entao possivelmente sim. Se os questionarios estiverem razoavelmente padronizados, 3 semanas pode ser viavel para o dataset completo. Se o prazo for mais apertado que isso, posso entregar em fases: os primeiros 30-50 questionarios no prazo, com os restantes na semana seguinte. Qual e a flexibilidade de voces nesse ponto?"</em></p>
     </div>
-    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Isso mostra flexibilidade sem comprometer qualidade. Nunca prometa algo que nao pode entregar.</em></p>
+    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Como colaboradora recorrente, mostre disposicao para acomodar &mdash; mas sempre condicionando a qualidade. "Prefiro entregar um pouco depois do que entregar com erros que vao gerar retrabalho."</em></p>
   </div>
 
   <div class="card">
@@ -712,11 +725,11 @@
 
   <div class="card">
     <h3 style="color:var(--danger);">"Voce ja trabalhou com organizacoes do sistema ONU?"</h3>
-    <p><strong>Se sim:</strong> Mencione a experiencia e os processos que conhece (SSA, ToR, inception report, pagamento em tranches).</p>
-    <p><strong>Se nao:</strong> Nao minta. Redirecione:</p>
+    <p><strong>Como responder:</strong> Voce ja trabalha com a ILO recorrentemente &mdash; esta e uma pergunta facil:</p>
     <div style="background:#f7fafc; border-left:3px solid var(--accent); padding:0.8rem; margin-top:0.5rem;">
-      <p><em>"Nao trabalhei diretamente com o sistema ONU antes, mas estou familiarizada com os processos de consultoria internacional &mdash; Terms of Reference, inception reports, entrega em fases com milestones. Minha prioridade e entregar um dataset robusto e bem documentado, independente do formato contratual."</em></p>
+      <p><em>"Sim, ja trabalho com a ILO em base recorrente. Conheco os processos &mdash; SSA, Terms of Reference, inception reports, entrega em fases com milestones, pagamento em tranches. Essa familiaridade com o funcionamento da organizacao e uma vantagem: sei o que esperar em termos de fluxo de aprovacao, comunicacao, e padrao de qualidade."</em></p>
     </div>
+    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Nao precisa se vender neste ponto &mdash; eles ja conhecem seu trabalho. Foque em como a experiencia anterior ajuda especificamente neste projeto.</em></p>
   </div>
 
   <div class="card">
@@ -729,11 +742,11 @@
 
   <div class="card">
     <h3 style="color:var(--danger);">"Podemos ver uma amostra do seu trabalho ou fazer um teste?"</h3>
-    <p><strong>Como responder:</strong> Aceite imediatamente &mdash; isso joga a seu favor:</p>
+    <p><strong>Como responder:</strong> Aceite com naturalidade &mdash; voce ja tem a relacao, o piloto e do seu interesse tambem:</p>
     <div style="background:#f7fafc; border-left:3px solid var(--accent); padding:0.8rem; margin-top:0.5rem;">
-      <p><em>"Com certeza. Me enviem 3 questionarios reais preenchidos e eu processo 1 deles end-to-end como prova de conceito &mdash; com extracao, codebook parcial, e o output em Excel. Isso levaria 1-2 dias e nos da a base para calibrar a proposta final. Posso fazer isso antes de formalizar o contrato."</em></p>
+      <p><em>"Claro, inclusive sugiro isso. Me enviem 3 questionarios reais e eu processo 1 end-to-end como piloto &mdash; com extracao, codebook parcial, e output em Excel. Com as ferramentas de IA que uso, isso leva 1 dia. Alem de servir como prova de conceito, me permite calibrar a proposta com muito mais precisao."</em></p>
     </div>
-    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Isso e estrategico: (a) demonstra confianca, (b) forca a ILO a enviar dados reais, (c) voce ve a complexidade real antes de se comprometer.</em></p>
+    <p style="margin-top:0.5rem; color:var(--muted); font-size:0.85rem;"><em>Estrategia: (a) mostra proatividade e confianca nas ferramentas, (b) garante acesso a dados reais antes de comprometer preco, (c) com IA, 1 dia para o piloto e realista e impressiona. Note: "1 dia" em vez de "1-2 dias" porque com IA e factivel.</em></p>
   </div>
 </div>
 
